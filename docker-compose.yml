@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+    idgl:
+        image: nvidia/cuda:11.4.2-cudnn8-runtime-ubuntu20.04
+        working_dir: ~/workspace
+        volumes:
+            - ./data/:~/workspace/data
+            - ./config/:~/workspace/config
+            - ./IDGL/:~/workspace/IDGL
+        command: bash -c "config/install_python.sh && config/install_idgl.sh && tail -F /dev/null"
+        #command: bash -c "tail -F /dev/null"
