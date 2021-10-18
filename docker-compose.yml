@@ -8,5 +8,5 @@ services:
             - ./data/:/workspace/data
             - ./config/:/workspace/config
             - ./IDGL/:/workspace/IDGL
-        command: bash -c "config/install_python.sh && config/install_idgl.sh && tail -F /dev/null"
+        command: bash -c "config/install.sh && tail -F /dev/null"
         #command: bash -c "tail -F /dev/null"
