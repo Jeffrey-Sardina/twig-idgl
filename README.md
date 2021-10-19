@@ -17,7 +17,7 @@ All modifications to the IDGL work (be they in the IDGL directory or outside of 
     - **install.sh** -- installs IDGL and all its dependencies (such as miniconda, Python, and Torch)
 - **data/** -- a folder containing custom datasets for use with IDGL that do not come with it be default. The data in this folder is used directly in the container as a volume. It is kept separate from IDGL/data/ to avoid modifying the original project where possible.
 - **IDGL/** -- a repo cloned from https://github.com/hugochan/IDGL. The data in this folder is used directly in the container as a volume. The modifications made to this project are as follows:
-    - none
+    - requirements.txt -- remove torch install command, as a newer version is needed to support more modern GPUs
 
 (files)
 - **docker-compose.yml** -- a Docker compose file that governs container creation for this module. The GNN is run only in a container, not on the base OS, to make this as reproducible and simple as possible.
