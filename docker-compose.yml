@@ -2,11 +2,23 @@ version: '3.9'
 
 services:
     idgl:
-        image: nvidia/cuda:11.4.2-cudnn8-runtime-ubuntu20.04
+        #Basic starting info
+        container_name: idgl
+        image: nvidia/cuda:10.2-cudnn8-runtime-ubuntu18.04 #nvidia/cuda:11.4.2-cudnn8-runtime-ubuntu20.04
+
+        #Set up workspace
         working_dir: /workspace
         volumes:
             - ./data/:/workspace/data
             - ./config/:/workspace/config
             - ./IDGL/:/workspace/IDGL
+
+        #Enable nvidia https://docs.docker.com/compose/gpu-support/
+        deploy: 
+            resources: 
+                reservations: 
+                    devices: 
+                        - capabilities: [gpu]
+        
+        #Install IDGL
         command: bash -c "config/install.sh && tail -F /dev/null"
-        #command: bash -c "tail -F /dev/null"
