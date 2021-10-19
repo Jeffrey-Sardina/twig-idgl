@@ -4,7 +4,7 @@ services:
     idgl:
         #Basic starting info
         container_name: idgl
-        image: nvidia/cuda:10.2-cudnn8-runtime-ubuntu18.04 #nvidia/cuda:11.4.2-cudnn8-runtime-ubuntu20.04
+        image: nvidia/cuda:11.4.2-cudnn8-runtime-ubuntu20.04
 
         #Set up workspace
         working_dir: /workspace

@@ -17,4 +17,5 @@ fi
 export PATH=$PATH:~/miniconda3/bin
 conda create -n "pyenv" python=3.7 pip
 conda run --no-capture-output -n pyenv pip install -r IDGL/requirements.txt
+conda run --no-capture-output -n pyenv pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
 conda init bash #new
