@@ -1,4 +1,5 @@
 ## python main.py -config config/cora/idgl.yml
+```
 /root/miniconda3/envs/pyenv/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
   import imp
 main.py:58: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
@@ -195,8 +196,10 @@ Saved raw_learned_adj to ../out/cora/idgl/cora_idgl_raw_adj.npy
 <> <> <> Finished Timer [Test] <> <> <> Total time elapsed: 0h 00m 00s <> <> <>
 Finished Testing: ../out/cora/idgl
 Testing time: 0.06
+```
 
 ## python main.py -config config/cora/idgl_anchor.yml
+```
 /root/miniconda3/envs/pyenv/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
   import imp
 main.py:58: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
@@ -315,3 +318,4 @@ Saved raw_learned_adj to ../out/cora/idgl_anchor/cora_idgl_node_anchor_adj.npy
 <> <> <> Finished Timer [Test] <> <> <> Total time elapsed: 0h 00m 00s <> <> <>
 Finished Testing: ../out/cora/idgl_anchor
 Testing time: 0.03
+```
