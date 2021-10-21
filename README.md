@@ -1,7 +1,9 @@
 # TWIG-IGDL
 
 ## Project Notes and Credits
-This project makes use of IDGL, a GNN library developed by Chen et al. Its license can be found in the folder IDGL/LICENSE. As per the license terms "You must cause any modified files to carry prominent notices stating that You changed the files", all modified or add files in the IDGL folder have been clearly marked as modified or added. A list of all added, modified, and deleted files can also be found under the Directory Contents subheading in this README file. 
+TWIG is the **T**wig **W**izard for **I**ntelligence **G**eneration. It is currently in development by Jeffrey Sardina (ORCID ID https://orcid.org/0000-0003-0654-2938) as a part of his PhD work at Trinity College Dublin.
+
+This version of TWIG makes use of IDGL, a GNN library developed by Chen et al, for GNN training. Its license can be found in the folder IDGL/LICENSE. As per the license terms "You must cause any modified files to carry prominent notices stating that You changed the files", all modified or add files in the IDGL folder have been clearly marked as modified or added. A list of all added, modified, and deleted files can also be found under the Directory Contents subheading in this README file. 
 
 IDGL Citation
 - Yu Chen, Lingfei Wu and Mohammed J. Zaki. "Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust Node Embeddings." In Proceedings of the 34th Conference on Neural Information Processing Systems (NeurIPS 2020), Dec 6-12, 2020.
@@ -9,7 +11,7 @@ IDGL Citation
 ## LICENSE
 As per the IDGL license, "You may add Your own copyright statement to Your modifications and may provide additional or different license terms and conditions for use, reproduction, or distribution of Your modifications, or for any such Derivative Works as a whole, provided Your use,       reproduction, and distribution of the Work otherwise complies with the conditions stated in this License."
 
-All modifications to the IDGL work (be they in the IDGL directory or outside of it) are placed under a different license. Please see the LICENSE file in the document root for these license details.
+All modifications to the IDGL work (be they in the IDGL directory or outside of it) and all other TWIG work is placed under a different license. Please see the LICENSE file in the document root for these license details.
 
 ## Directory Contents
 (folders)
@@ -17,7 +19,7 @@ All modifications to the IDGL work (be they in the IDGL directory or outside of 
     - **install.sh** -- installs IDGL and all its dependencies (such as miniconda, Python, and Torch)
 - **data/** -- a folder containing custom datasets for use with IDGL that do not come with it be default. The data in this folder is used directly in the container as a volume. It is kept separate from IDGL/data/ to avoid modifying the original project where possible.
 - **IDGL/** -- a repo cloned from https://github.com/hugochan/IDGL. The data in this folder is used directly in the container as a volume. The modifications made to this project are as follows:
-    - requirements.txt -- remove torch install command, as a newer version is needed to support more modern GPUs
+    - requirements.txt -- remove torch install command, as a newer version is needed to support more modern GPUs and is installed separately. This version should now support RTX 30XX, and is verified to run on the RTX 3080-TI.
 
 (files)
 - **docker-compose.yml** -- a Docker compose file that governs container creation for this module. The GNN is run only in a container, not on the base OS, to make this as reproducible and simple as possible.
