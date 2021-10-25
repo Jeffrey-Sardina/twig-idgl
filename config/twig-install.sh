@@ -13,9 +13,12 @@ then
     rm Miniconda3-py38_4.10.3-Linux-x86_64.sh
 fi
 
-#Install IDGL
+#Install IDGL (part of the GNN-module)
 export PATH=$PATH:~/miniconda3/bin
 conda create -n "pyenv" python=3.7 pip
-conda run --no-capture-output -n pyenv pip install -r IDGL/requirements.txt
+conda run --no-capture-output -n pyenv pip install -r GNN-module/requirements.txt
 conda run --no-capture-output -n pyenv pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
 conda init bash #new
+
+#Install hyperopt (part of the NAS-module)
+conda run --no-capture-output -n pyenv pip install hyperopt==0.2.5

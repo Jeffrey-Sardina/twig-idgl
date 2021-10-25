@@ -1,9 +1,9 @@
 version: '3.9'
 
 services:
-    idgl:
+    twig-gnn:
         #Basic starting info
-        container_name: idgl
+        container_name: twig-gnn
         image: nvidia/cuda:11.4.2-cudnn8-runtime-ubuntu20.04
 
         #Set up workspace
@@ -11,7 +11,8 @@ services:
         volumes:
             - ./data/:/workspace/data
             - ./config/:/workspace/config
-            - ./IDGL/:/workspace/IDGL
+            - ./GNN-module/:/workspace/GNN-module
+            - ./NAS-module/:/workspace/NAS-module
 
         #Enable nvidia https://docs.docker.com/compose/gpu-support/
         deploy: 
@@ -20,5 +21,19 @@ services:
                     devices: 
                         - capabilities: [gpu]
         
-        #Install IDGL
-        command: bash -c "config/install.sh && tail -F /dev/null"
+        #Install TWIG
+        command: bash -c "config/twig-install.sh && tail -F /dev/null"
+
+    twig-mongo:
+        #Basic starting info
+        conainer_name: twig-mongo
+        image: mongo/mongo:5.0.3
+
+        #Set up workspace
+        working_dir: /workspace
+
+        ports:
+            - 1234:1234
+
+        #Install MONGO
+        command: bash -c "config/mongo-install.sh && tail -F /dev/null"
