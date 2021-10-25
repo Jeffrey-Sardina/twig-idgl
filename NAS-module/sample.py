@@ -9,15 +9,10 @@ def objective(args):
     import math
     return math.sin
 
-# define a search space
-space = hp.choice('a',
-    [
-        ('case 1', 1 + hp.lognormal('c1', 0, 1)),
-        ('case 2', hp.uniform('c2', -10, 10))
-    ])
+search_space = hp.uniform('x', -2, 2)
 
-trials = MongoTrials('mongo://localhost:1234/twig_db/jobs', exp_key='exp1')
-best = fmin(objective, hp.uniform('x', -2, 2), trials=trials, algo=tpe.suggest, max_evals=10)
+trials = MongoTrials('mongo://mongo:27017/twig_db/jobs', exp_key='exp1')
+best = fmin(objective, search_space, trials=trials, algo=tpe.suggest, max_evals=10)
 
 print(best)
 # -> {'a': 1, 'c2': 0.01420615366247227}

@@ -10,9 +10,9 @@ services:
         working_dir: /workspace
         volumes:
             - ./data/:/workspace/data
-            - ./config/:/workspace/config
             - ./GNN-module/:/workspace/GNN-module
             - ./NAS-module/:/workspace/NAS-module
+            - ./twig-module/:/workspace/twig-module
 
         #Enable nvidia https://docs.docker.com/compose/gpu-support/
         deploy: 
@@ -22,18 +22,18 @@ services:
                         - capabilities: [gpu]
         
         #Install TWIG
-        command: bash -c "config/twig-install.sh && tail -F /dev/null"
+        command: bash -c "twig-module/twig-install.sh && tail -F /dev/null"
 
     twig-mongo:
         #Basic starting info
-        conainer_name: twig-mongo
-        image: mongo/mongo:5.0.3
+        container_name: twig-mongo
+        image: mongo:5.0.3
 
         #Set up workspace
         working_dir: /workspace
 
-        ports:
-            - 1234:1234
+        volumes:
+            - ./mongo-module/:/workspace/mongo-module
 
         #Install MONGO
-        command: bash -c "config/mongo-install.sh && tail -F /dev/null"
+        command: bash -c "mongo-module/mongo-start.sh && tail -F /dev/null"

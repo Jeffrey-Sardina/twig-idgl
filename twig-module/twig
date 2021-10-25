@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+
+import yaml, sys, glob
+
+def do_job(config):
+    pass
+
+def load_config(filename):
+    if filename.strip() == 'do-your-job':
+        filename = glob.glob("TwigJob.*")[0]
+        print("Using ", filename)
+
+    try:
+        with open(filename, 'r') as config_file:
+            config = yaml.load(config_file)
+    except:
+        print("Could not load configuration for running Twig.")
+        raise
+    
+    return config
+
+if __name__ == '__main__':
+    print("Hello, I am Twig. I do my job!")
+
+    # Validate input
+    if len(sys.argv) != 2:
+        print("Error: invalid Twig command")
+        print("Usage:")
+        print("\t./twig.py do-your-job #if you have a TwigJob.y(a)ml file defined in your current directory")
+        print("\t./twig.py <file>.yml #To use a configuration file in another directory")
+        exit(1)
+    
+    # Load job config
+    print("Loading job details...", end='')
+    config_file = sys.argv[1]
+    config = load_config(config_file)
+    print("success")
+
+    #Run job
+    print("Doing my job!")
+    do_job(config)
+    print("Job completed successfully!")
+    exit(0)
+    
