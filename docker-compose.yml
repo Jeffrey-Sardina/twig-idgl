@@ -23,17 +23,3 @@ services:
         
         #Install TWIG
         command: bash -c "twig-module/twig-install.sh && tail -F /dev/null"
-
-    twig-mongo:
-        #Basic starting info
-        container_name: twig-mongo
-        image: mongo:5.0.3
-
-        #Set up workspace
-        working_dir: /workspace
-
-        volumes:
-            - ./mongo-module/:/workspace/mongo-module
-
-        #Install MONGO
-        command: bash -c "mongo-module/mongo-start.sh && tail -F /dev/null"

@@ -21,8 +21,7 @@ conda run --no-capture-output -n pyenv pip install torch==1.9.1+cu111 torchvisio
 conda init bash #new
 
 #Install hyperopt (part of the NAS-module)
-conda run --no-capture-output -n pyenv pip install hyperopt==0.2.5
-conda run --no-capture-output -n pyenv pip install pymongo==3.12.1
+conda run --no-capture-output -n pyenv pip install hpbandster==0.7.4
 
 #Install Twig control module
 export PATH=$PATH:/workspace/control-module

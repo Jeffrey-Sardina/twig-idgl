@@ -5,13 +5,20 @@ TWIG is the **T**wig **W**izard for **I**ntelligence **G**eneration. It is curre
 
 This version of TWIG makes use of IDGL, a GNN library developed by Chen et al, for GNN training. Its license can be found in the folder IDGL/LICENSE. As per the license terms "You must cause any modified files to carry prominent notices stating that You changed the files", all modified or add files in the IDGL folder have been clearly marked as modified or added. A list of all added, modified, and deleted files can also be found under the Directory Contents subheading in this README file. 
 
-TWIG also uses hyperopt, a hyperparameter optimization package that implements (among other algorithms) TPE (Tree Parzan Estimator), which is used as a part of BOHB by Falkner et al, 2018. The citation to hyperopt is given below as per the author's directions; it is made available under a BSD license
+TWIG also uses HpBandSter, a hyperparameter optimization package that implements (among other algorithms) BOHB (Bayesian optimization HyperBand) as in "BOHB: Robust and Efficient Hyperparameter Optimization at Scale". It is made available under a BSD 3-Clause License.
 
 IDGL Citation
-- Yu Chen, Lingfei Wu and Mohammed J. Zaki. "Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust Node Embeddings." In Proceedings of the 34th Conference on Neural Information Processing Systems (NeurIPS 2020), Dec 6-12, 2020.
+- Yu Chen, Lingfei Wu and Mo hammed J. Zaki. "Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust Node Embeddings." In Proceedings of the 34th Conference on Neural Information Processing Systems (NeurIPS 2020), Dec 6-12, 2020.
 
-Hyperopt citation
-- Bergstra, J., Yamins, D., Cox, D. D. (2013) Making a Science of Model Search: Hyperparameter Optimization in Hundreds of Dimensions for Vision Architectures. To appear in Proc. of the 30th International Conference on Machine Learning (ICML 2013).
+BOHB citation:
+@InProceedings{falkner-icml-18,
+  title =        {{BOHB}: Robust and Efficient Hyperparameter Optimization at Scale},
+  author =       {Falkner, Stefan and Klein, Aaron and Hutter, Frank},
+  booktitle =    {Proceedings of the 35th International Conference on Machine Learning},
+  pages =        {1436--1445},
+  year =         {2018},
+}
+
 
 ## LICENSE
 As per the IDGL license, "You may add Your own copyright statement to Your modifications and may provide additional or different license terms and conditions for use, reproduction, or distribution of Your modifications, or for any such Derivative Works as a whole, provided Your use,       reproduction, and distribution of the Work otherwise complies with the conditions stated in this License."
@@ -27,7 +34,6 @@ All modifications to the IDGL work (be they in the IDGL directory or outside of 
     - requirements.txt -- remove torch install command, as a newer version is needed to support more modern GPUs and is installed separately. This version should now support RTX 30XX, and is verified to run on the RTX 3080-TI.
 - **NAS-module/** -- code for implementing NAS and hyperparameter optimisation, currently running on TPE from https://github.com/jaberg/hyperopt/tree/master
 - **twig-module/** -- code for TWIG commands and Twig container setup. Twig is invoked via twig.py, which by default reads from a configuration file named TwigJob for determining what jobs and workflows to run.
-- **mongo-module/** -- code for MongoDb commands and Mongo container setup.
 
 (files)
 - **docker-compose.yml** -- a Docker compose file that governs container creation for this module. The GNN is run only in a container, not on the base OS, to make this as reproducible and simple as possible.
