@@ -1,3 +1,7 @@
+''''
+Modifications (marked with "# MODIFIED"):
+'''
+
 import os
 import time
 import json
@@ -41,8 +45,12 @@ class ModelHandler(object):
         else:
             raise ValueError('Unknown task_type: {}'.format(config['task_type']))
 
+        # MODIFIED: replace torch device object with its str representation for json serialization
+        config_to_log = {key:config[key] for key in config}
+        if "device" in config_to_log:
+            config_to_log["device"] = str(config_to_log["device"])
+        self.logger = DummyLogger(config_to_log, dirname=config['out_dir'], pretrained=config['pretrained'])
 
-        self.logger = DummyLogger(config, dirname=config['out_dir'], pretrained=config['pretrained'])
         self.dirname = self.logger.dirname
         if not config['no_cuda'] and torch.cuda.is_available():
             print('[ Using CUDA ]')

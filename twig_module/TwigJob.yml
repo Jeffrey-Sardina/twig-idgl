@@ -1,0 +1,9 @@
+run_id: "twig_run"
+n_iterations: 1 #10
+host_addr: "127.0.0.1"
+min_budget: 10
+max_budget: 300
+idgl_config_file: "/workspace/GNN_module/src/config/cora/idgl_anchor.yml"
+
+idgl_params:
+- 

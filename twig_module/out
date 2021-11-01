@@ -1,0 +1,521 @@
+Hello, I am Twig. I do my job!
+Loading job details...success
+Doing my job!
+**************** MODEL CONFIGURATION ****************
+bignn                    -->   False
+cuda_id                  -->   0
+data_dir                 -->   ../data/cora/
+data_type                -->   network
+dataset_name             -->   cora
+degree_ratio             -->   0
+dropout                  -->   0.6
+eary_stop_metric         -->   nloss
+eps_adj                  -->   8.5e-05
+feat_adj_dropout         -->   0.5
+gat_alpha                -->   0.2
+gat_nhead                -->   8
+gl_dropout               -->   0
+grad_accumulated_steps   -->   1
+grad_clipping            -->   None
+graph_hops               -->   2
+graph_include_self       -->   False
+graph_learn              -->   True
+graph_learn_epsilon      -->   0
+graph_learn_hidden_size  -->   70
+graph_learn_num_pers     -->   4
+graph_learn_ratio        -->   0
+graph_learn_regularization -->   True
+graph_learn_topk         -->   None
+graph_metric_type        -->   weighted_cosine
+graph_module             -->   gcn
+graph_skip_conn          -->   0.8
+graph_type               -->   dynamic
+hidden_size              -->   16
+learning_rate            -->   5.592926039854419
+logging                  -->   True
+lr_patience              -->   2
+lr_reduce_factor         -->   0.5
+max_epochs               -->   11.11111111111111
+max_iter                 -->   10
+max_rl_ratio             -->   0.99
+model_name               -->   GraphClf
+no_cuda                  -->   False
+num_anchors              -->   1000
+optimizer                -->   adam
+out_dir                  -->   /tmp/iteration_id_0.793815525260347
+out_predictions          -->   False
+out_raw_learned_adj_path -->   cora_idgl_node_anchor_adj.npy
+patience                 -->   100
+pretrain_epoch           -->   0
+pretrained               -->   None
+print_every_epochs       -->   500
+random_seed              -->   1234
+rl_ratio                 -->   0
+rl_ratio_power           -->   1
+rl_reward_metric         -->   acc
+rl_start_epoch           -->   1
+rl_wmd_ratio             -->   0
+save_params              -->   True
+scalable_run             -->   True
+seed                     -->   42
+shuffle                  -->   True
+smoothness_ratio         -->   0.2
+sparsity_ratio           -->   0.1
+task_type                -->   classification
+update_adj_ratio         -->   0.1
+use_bert                 -->   False
+verbose                  -->   20
+weight_decay             -->   0.0005
+**************** MODEL CONFIGURATION ****************
+[ Using CUDA ]
+[ Using ground-truth input graph ]
+[ Running GraphClf model ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Graph Learner ]
+[ Graph Regularization]
+encoder.graph_encoders.0.weight: torch.Size([1433, 16])
+encoder.graph_encoders.1.weight: torch.Size([16, 7])
+graph_learner.weight_tensor: torch.Size([4, 1433])
+graph_learner2.weight_tensor: torch.Size([4, 16])
+#Parameters = 28836
+
+<> <> <> Starting Timer [Train] <> <> <>
+<> <> <> Finished Timer [Train] <> <> <> Total time elapsed: 0h 00m 02s <> <> <>
+Finished Training: /tmp/iteration_id_0.793815525260347
+Training time: 2.46
+
+<<<<<<<<<<<<<<<< MODEL SUMMARY >>>>>>>>>>>>>>>> 
+Best epoch = 12; 
+NLOSS = -3.86517
+ACC = 0.25200
+
+ <<<<<<<<<<<<<<<< MODEL SUMMARY >>>>>>>>>>>>>>>> 
+Restoring best model
+[ Loading saved model /tmp/iteration_id_0.793815525260347/params.saved ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Graph Learner ]
+[ Graph Regularization]
+<> <> <> Starting Timer [Test] <> <> <>
+Saved raw_learned_adj to /tmp/iteration_id_0.793815525260347/cora_idgl_node_anchor_adj.npy
+[test] | test_exs = 1000 | step: [1 / 1] | NLOSS = -3.83618 | ACC = 0.26700
+<> <> <> Finished Timer [Test] <> <> <> Total time elapsed: 0h 00m 00s <> <> <>
+Finished Testing: /tmp/iteration_id_0.793815525260347
+Testing time: 0.09
+**************** MODEL CONFIGURATION ****************
+bignn                    -->   False
+cuda_id                  -->   0
+data_dir                 -->   ../data/cora/
+data_type                -->   network
+dataset_name             -->   cora
+degree_ratio             -->   0
+device                   -->   cuda:0
+dropout                  -->   0.6
+eary_stop_metric         -->   nloss
+eps_adj                  -->   8.5e-05
+feat_adj_dropout         -->   0.5
+gat_alpha                -->   0.2
+gat_nhead                -->   8
+gl_dropout               -->   0
+grad_accumulated_steps   -->   1
+grad_clipping            -->   None
+graph_hops               -->   2
+graph_include_self       -->   False
+graph_learn              -->   True
+graph_learn_epsilon      -->   0
+graph_learn_hidden_size  -->   70
+graph_learn_num_pers     -->   4
+graph_learn_ratio        -->   0
+graph_learn_regularization -->   True
+graph_learn_topk         -->   None
+graph_metric_type        -->   weighted_cosine
+graph_module             -->   gcn
+graph_skip_conn          -->   0.8
+graph_type               -->   dynamic
+hidden_size              -->   16
+learning_rate            -->   1.5167732291800706
+logging                  -->   True
+lr_patience              -->   2
+lr_reduce_factor         -->   0.5
+max_epochs               -->   11.11111111111111
+max_iter                 -->   10
+max_rl_ratio             -->   0.99
+model_name               -->   GraphClf
+no_cuda                  -->   False
+num_anchors              -->   1000
+num_class                -->   7
+num_feat                 -->   1433
+optimizer                -->   adam
+out_dir                  -->   /tmp/iteration_id_0.026561910436191383
+out_predictions          -->   False
+out_raw_learned_adj_path -->   cora_idgl_node_anchor_adj.npy
+patience                 -->   100
+pretrain_epoch           -->   0
+pretrained               -->   None
+print_every_epochs       -->   500
+random_seed              -->   1234
+rl_ratio                 -->   0
+rl_ratio_power           -->   1
+rl_reward_metric         -->   acc
+rl_start_epoch           -->   1
+rl_wmd_ratio             -->   0
+save_params              -->   True
+scalable_run             -->   True
+seed                     -->   42
+shuffle                  -->   True
+smoothness_ratio         -->   0.2
+sparsity_ratio           -->   0.1
+task_type                -->   classification
+update_adj_ratio         -->   0.1
+use_bert                 -->   False
+verbose                  -->   20
+weight_decay             -->   0.0005
+**************** MODEL CONFIGURATION ****************
+[ Using CUDA ]
+[ Using ground-truth input graph ]
+[ Running GraphClf model ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Graph Learner ]
+[ Graph Regularization]
+encoder.graph_encoders.0.weight: torch.Size([1433, 16])
+encoder.graph_encoders.1.weight: torch.Size([16, 7])
+graph_learner.weight_tensor: torch.Size([4, 1433])
+graph_learner2.weight_tensor: torch.Size([4, 16])
+#Parameters = 28836
+
+<> <> <> Starting Timer [Train] <> <> <>
+<> <> <> Finished Timer [Train] <> <> <> Total time elapsed: 0h 00m 03s <> <> <>
+Finished Training: /tmp/iteration_id_0.026561910436191383
+Training time: 3.13
+
+<<<<<<<<<<<<<<<< MODEL SUMMARY >>>>>>>>>>>>>>>> 
+Best epoch = 12; 
+NLOSS = -3.61273
+ACC = 0.34800
+
+ <<<<<<<<<<<<<<<< MODEL SUMMARY >>>>>>>>>>>>>>>> 
+Restoring best model
+[ Loading saved model /tmp/iteration_id_0.026561910436191383/params.saved ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Graph Learner ]
+[ Graph Regularization]
+<> <> <> Starting Timer [Test] <> <> <>
+Saved raw_learned_adj to /tmp/iteration_id_0.026561910436191383/cora_idgl_node_anchor_adj.npy
+[test] | test_exs = 1000 | step: [1 / 1] | NLOSS = -3.52493 | ACC = 0.34900
+<> <> <> Finished Timer [Test] <> <> <> Total time elapsed: 0h 00m 00s <> <> <>
+Finished Testing: /tmp/iteration_id_0.026561910436191383
+Testing time: 0.07
+**************** MODEL CONFIGURATION ****************
+bignn                    -->   False
+cuda_id                  -->   0
+data_dir                 -->   ../data/cora/
+data_type                -->   network
+dataset_name             -->   cora
+degree_ratio             -->   0
+device                   -->   cuda:0
+dropout                  -->   0.6
+eary_stop_metric         -->   nloss
+eps_adj                  -->   8.5e-05
+feat_adj_dropout         -->   0.5
+gat_alpha                -->   0.2
+gat_nhead                -->   8
+gl_dropout               -->   0
+grad_accumulated_steps   -->   1
+grad_clipping            -->   None
+graph_hops               -->   2
+graph_include_self       -->   False
+graph_learn              -->   True
+graph_learn_epsilon      -->   0
+graph_learn_hidden_size  -->   70
+graph_learn_num_pers     -->   4
+graph_learn_ratio        -->   0
+graph_learn_regularization -->   True
+graph_learn_topk         -->   None
+graph_metric_type        -->   weighted_cosine
+graph_module             -->   gcn
+graph_skip_conn          -->   0.8
+graph_type               -->   dynamic
+hidden_size              -->   16
+learning_rate            -->   5.993559387587915
+logging                  -->   True
+lr_patience              -->   2
+lr_reduce_factor         -->   0.5
+max_epochs               -->   11.11111111111111
+max_iter                 -->   10
+max_rl_ratio             -->   0.99
+model_name               -->   GraphClf
+no_cuda                  -->   False
+num_anchors              -->   1000
+num_class                -->   7
+num_feat                 -->   1433
+optimizer                -->   adam
+out_dir                  -->   /tmp/iteration_id_0.7384598913980734
+out_predictions          -->   False
+out_raw_learned_adj_path -->   cora_idgl_node_anchor_adj.npy
+patience                 -->   100
+pretrain_epoch           -->   0
+pretrained               -->   None
+print_every_epochs       -->   500
+random_seed              -->   1234
+rl_ratio                 -->   0
+rl_ratio_power           -->   1
+rl_reward_metric         -->   acc
+rl_start_epoch           -->   1
+rl_wmd_ratio             -->   0
+save_params              -->   True
+scalable_run             -->   True
+seed                     -->   42
+shuffle                  -->   True
+smoothness_ratio         -->   0.2
+sparsity_ratio           -->   0.1
+task_type                -->   classification
+update_adj_ratio         -->   0.1
+use_bert                 -->   False
+verbose                  -->   20
+weight_decay             -->   0.0005
+**************** MODEL CONFIGURATION ****************
+[ Using CUDA ]
+[ Using ground-truth input graph ]
+[ Running GraphClf model ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Graph Learner ]
+[ Graph Regularization]
+encoder.graph_encoders.0.weight: torch.Size([1433, 16])
+encoder.graph_encoders.1.weight: torch.Size([16, 7])
+graph_learner.weight_tensor: torch.Size([4, 1433])
+graph_learner2.weight_tensor: torch.Size([4, 16])
+#Parameters = 28836
+
+<> <> <> Starting Timer [Train] <> <> <>
+<> <> <> Finished Timer [Train] <> <> <> Total time elapsed: 0h 00m 02s <> <> <>
+Finished Training: /tmp/iteration_id_0.7384598913980734
+Training time: 2.65
+
+<<<<<<<<<<<<<<<< MODEL SUMMARY >>>>>>>>>>>>>>>> 
+Best epoch = 12; 
+NLOSS = -3.65185
+ACC = 0.30800
+
+ <<<<<<<<<<<<<<<< MODEL SUMMARY >>>>>>>>>>>>>>>> 
+Restoring best model
+[ Loading saved model /tmp/iteration_id_0.7384598913980734/params.saved ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Graph Learner ]
+[ Graph Regularization]
+<> <> <> Starting Timer [Test] <> <> <>
+Saved raw_learned_adj to /tmp/iteration_id_0.7384598913980734/cora_idgl_node_anchor_adj.npy
+[test] | test_exs = 1000 | step: [1 / 1] | NLOSS = -3.65355 | ACC = 0.30600
+<> <> <> Finished Timer [Test] <> <> <> Total time elapsed: 0h 00m 00s <> <> <>
+Finished Testing: /tmp/iteration_id_0.7384598913980734
+Testing time: 0.12
+**************** MODEL CONFIGURATION ****************
+bignn                    -->   False
+cuda_id                  -->   0
+data_dir                 -->   ../data/cora/
+data_type                -->   network
+dataset_name             -->   cora
+degree_ratio             -->   0
+device                   -->   cuda:0
+dropout                  -->   0.6
+eary_stop_metric         -->   nloss
+eps_adj                  -->   8.5e-05
+feat_adj_dropout         -->   0.5
+gat_alpha                -->   0.2
+gat_nhead                -->   8
+gl_dropout               -->   0
+grad_accumulated_steps   -->   1
+grad_clipping            -->   None
+graph_hops               -->   2
+graph_include_self       -->   False
+graph_learn              -->   True
+graph_learn_epsilon      -->   0
+graph_learn_hidden_size  -->   70
+graph_learn_num_pers     -->   4
+graph_learn_ratio        -->   0
+graph_learn_regularization -->   True
+graph_learn_topk         -->   None
+graph_metric_type        -->   weighted_cosine
+graph_module             -->   gcn
+graph_skip_conn          -->   0.8
+graph_type               -->   dynamic
+hidden_size              -->   16
+learning_rate            -->   5.508902967633837
+logging                  -->   True
+lr_patience              -->   2
+lr_reduce_factor         -->   0.5
+max_epochs               -->   11.11111111111111
+max_iter                 -->   10
+max_rl_ratio             -->   0.99
+model_name               -->   GraphClf
+no_cuda                  -->   False
+num_anchors              -->   1000
+num_class                -->   7
+num_feat                 -->   1433
+optimizer                -->   adam
+out_dir                  -->   /tmp/iteration_id_0.6022972660631936
+out_predictions          -->   False
+out_raw_learned_adj_path -->   cora_idgl_node_anchor_adj.npy
+patience                 -->   100
+pretrain_epoch           -->   0
+pretrained               -->   None
+print_every_epochs       -->   500
+random_seed              -->   1234
+rl_ratio                 -->   0
+rl_ratio_power           -->   1
+rl_reward_metric         -->   acc
+rl_start_epoch           -->   1
+rl_wmd_ratio             -->   0
+save_params              -->   True
+scalable_run             -->   True
+seed                     -->   42
+shuffle                  -->   True
+smoothness_ratio         -->   0.2
+sparsity_ratio           -->   0.1
+task_type                -->   classification
+update_adj_ratio         -->   0.1
+use_bert                 -->   False
+verbose                  -->   20
+weight_decay             -->   0.0005
+**************** MODEL CONFIGURATION ****************
+[ Using CUDA ]
+[ Using ground-truth input graph ]
+[ Running GraphClf model ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Graph Learner ]
+[ Graph Regularization]
+encoder.graph_encoders.0.weight: torch.Size([1433, 16])
+encoder.graph_encoders.1.weight: torch.Size([16, 7])
+graph_learner.weight_tensor: torch.Size([4, 1433])
+graph_learner2.weight_tensor: torch.Size([4, 16])
+#Parameters = 28836
+
+<> <> <> Starting Timer [Train] <> <> <>
+<> <> <> Finished Timer [Train] <> <> <> Total time elapsed: 0h 00m 02s <> <> <>
+Finished Training: /tmp/iteration_id_0.6022972660631936
+Training time: 2.3
+
+<<<<<<<<<<<<<<<< MODEL SUMMARY >>>>>>>>>>>>>>>> 
+Best epoch = 6; 
+NLOSS = -3.89645
+ACC = 0.33400
+
+ <<<<<<<<<<<<<<<< MODEL SUMMARY >>>>>>>>>>>>>>>> 
+Restoring best model
+[ Loading saved model /tmp/iteration_id_0.6022972660631936/params.saved ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Graph Learner ]
+[ Graph Regularization]
+<> <> <> Starting Timer [Test] <> <> <>
+Saved raw_learned_adj to /tmp/iteration_id_0.6022972660631936/cora_idgl_node_anchor_adj.npy
+[test] | test_exs = 1000 | step: [1 / 1] | NLOSS = -3.87944 | ACC = 0.33400
+<> <> <> Finished Timer [Test] <> <> <> Total time elapsed: 0h 00m 00s <> <> <>
+Finished Testing: /tmp/iteration_id_0.6022972660631936
+Testing time: 0.07
+**************** MODEL CONFIGURATION ****************
+bignn                    -->   False
+cuda_id                  -->   0
+data_dir                 -->   ../data/cora/
+data_type                -->   network
+dataset_name             -->   cora
+degree_ratio             -->   0
+device                   -->   cuda:0
+dropout                  -->   0.6
+eary_stop_metric         -->   nloss
+eps_adj                  -->   8.5e-05
+feat_adj_dropout         -->   0.5
+gat_alpha                -->   0.2
+gat_nhead                -->   8
+gl_dropout               -->   0
+grad_accumulated_steps   -->   1
+grad_clipping            -->   None
+graph_hops               -->   2
+graph_include_self       -->   False
+graph_learn              -->   True
+graph_learn_epsilon      -->   0
+graph_learn_hidden_size  -->   70
+graph_learn_num_pers     -->   4
+graph_learn_ratio        -->   0
+graph_learn_regularization -->   True
+graph_learn_topk         -->   None
+graph_metric_type        -->   weighted_cosine
+graph_module             -->   gcn
+graph_skip_conn          -->   0.8
+graph_type               -->   dynamic
+hidden_size              -->   16
+learning_rate            -->   5.947304810864452
+logging                  -->   True
+lr_patience              -->   2
+lr_reduce_factor         -->   0.5
+max_epochs               -->   11.11111111111111
+max_iter                 -->   10
+max_rl_ratio             -->   0.99
+model_name               -->   GraphClf
+no_cuda                  -->   False
+num_anchors              -->   1000
+num_class                -->   7
+num_feat                 -->   1433
+optimizer                -->   adam
+out_dir                  -->   /tmp/iteration_id_0.2161953028766792
+out_predictions          -->   False
+out_raw_learned_adj_path -->   cora_idgl_node_anchor_adj.npy
+patience                 -->   100
+pretrain_epoch           -->   0
+pretrained               -->   None
+print_every_epochs       -->   500
+random_seed              -->   1234
+rl_ratio                 -->   0
+rl_ratio_power           -->   1
+rl_reward_metric         -->   acc
+rl_start_epoch           -->   1
+rl_wmd_ratio             -->   0
+save_params              -->   True
+scalable_run             -->   True
+seed                     -->   42
+shuffle                  -->   True
+smoothness_ratio         -->   0.2
+sparsity_ratio           -->   0.1
+task_type                -->   classification
+update_adj_ratio         -->   0.1
+use_bert                 -->   False
+verbose                  -->   20
+weight_decay             -->   0.0005
+**************** MODEL CONFIGURATION ****************
+[ Using CUDA ]
+[ Using ground-truth input graph ]
+[ Running GraphClf model ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Multi-perspective weighted_cosine AnchorGraphLearner: 4 ]
+[ Graph Learner metric type: weighted_cosine ]
+[ Graph Learner ]
+[ Graph Regularization]
+encoder.graph_encoders.0.weight: torch.Size([1433, 16])
+encoder.graph_encoders.1.weight: torch.Size([16, 7])
+graph_learner.weight_tensor: torch.Size([4, 1433])
+graph_learner2.weight_tensor: torch.Size([4, 16])
+#Parameters = 28836
+
+<> <> <> Starting Timer [Train] <> <> <>

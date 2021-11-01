@@ -1,3 +1,4 @@
+# Base IDGL
 ## python main.py -config config/cora/idgl.yml
 ```
 /root/miniconda3/envs/pyenv/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
