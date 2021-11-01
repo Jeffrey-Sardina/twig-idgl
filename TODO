@@ -2,3 +2,4 @@ Automation
     Make objective in sample.py be IDGL loss (or a simpler version of it as in the papers)
     Use that optimal structure in a yaml file to run with the GNN (see IDGL/src/config/...)
     Configure the twig command to run this process from a TwigJob.yml file in a single line
+

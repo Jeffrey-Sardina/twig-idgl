@@ -10,9 +10,9 @@ services:
         working_dir: /workspace
         volumes:
             - ./data/:/workspace/data
-            - ./GNN-module/:/workspace/GNN-module
-            - ./NAS-module/:/workspace/NAS-module
-            - ./twig-module/:/workspace/twig-module
+            - ./GNN_module/:/workspace/GNN_module
+            - ./NAS_module/:/workspace/NAS_module
+            - ./twig_module/:/workspace/twig_module
 
         #Enable nvidia https://docs.docker.com/compose/gpu-support/
         deploy: 
@@ -22,4 +22,4 @@ services:
                         - capabilities: [gpu]
         
         #Install TWIG
-        command: bash -c "twig-module/twig-install.sh && tail -F /dev/null"
+        command: bash -c "twig_module/twig-install.sh && tail -F /dev/null"

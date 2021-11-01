@@ -30,10 +30,10 @@ All modifications to the IDGL work (be they in the IDGL directory or outside of 
 - **config/** -- a folder containing bash scripts used to configure the container. The data in this folder is used directly in the container as a volume. This is done using the bash script:
     - **install.sh** -- installs IDGL and all its dependencies (such as miniconda, Python, and Torch)
 - **data/** -- a folder containing custom datasets for use with IDGL that do not come with it be default. The data in this folder is used directly in the container as a volume. It is kept separate from IDGL/data/ to avoid modifying the original project where possible.
-- **GNN-module/** -- a repo cloned from https://github.com/hugochan/IDGL. The data in this folder is used directly in the container as a volume. The modifications made to this project are as follows:
+- **GNN_module/** -- a repo cloned from https://github.com/hugochan/IDGL. The data in this folder is used directly in the container as a volume. The modifications made to this project are as follows:
     - requirements.txt -- remove torch install command, as a newer version is needed to support more modern GPUs and is installed separately. This version should now support RTX 30XX, and is verified to run on the RTX 3080-TI.
-- **NAS-module/** -- code for implementing NAS and hyperparameter optimisation, currently running on TPE from https://github.com/jaberg/hyperopt/tree/master
-- **twig-module/** -- code for TWIG commands and Twig container setup. Twig is invoked via twig.py, which by default reads from a configuration file named TwigJob for determining what jobs and workflows to run.
+- **NAS_module/** -- code for implementing NAS and hyperparameter optimisation, currently running on TPE from https://github.com/jaberg/hyperopt/tree/master
+- **twig_module/** -- code for TWIG commands and Twig container setup. Twig is invoked via twig.py, which by default reads from a configuration file named TwigJob for determining what jobs and workflows to run.
 
 (files)
 - **docker-compose.yml** -- a Docker compose file that governs container creation for this module. The GNN is run only in a container, not on the base OS, to make this as reproducible and simple as possible.

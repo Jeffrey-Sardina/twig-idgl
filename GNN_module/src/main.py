@@ -1,3 +1,8 @@
+''''
+Modifications (marked with "# MODIFIED"):
+    the main function has been modified from the original function to return the value of the loss function
+'''
+
 import argparse
 import yaml
 import torch
@@ -22,7 +27,8 @@ def main(config):
     set_random_seed(config['random_seed'])
     model = ModelHandler(config)
     model.train()
-    model.test()
+    test_metrics = model.test() # MODIFIED: capture test() call return
+    return test_metrics[model.model.metric_name] # MODIFIED: return loss function data
 
 
 def multi_run_main(config):
