@@ -41,9 +41,9 @@ def do_job():
 
     # Train AI
     print('=========================Training Starting=========================')
-    results = train_GNN(neural_architecture)
+    accuracy = train_GNN(neural_architecture)
     print('=========================Training Done=========================')
-    print('results:', results)
+    print('accuracy:', accuracy)
 
 @in_idgl_dir
 def neural_architecture_search():
@@ -51,7 +51,7 @@ def neural_architecture_search():
 
 @in_idgl_dir
 def train_GNN(neural_architecture):
-    return GNN_run(total_config)
+    return GNN_run(neural_architecture)
 
 def load_config(filename):
     '''
