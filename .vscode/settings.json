@@ -16,15 +16,6 @@
         "titleBar.activeForeground": "#e7e7e7",
         "titleBar.inactiveBackground": "#00000099",
         "titleBar.inactiveForeground": "#e7e7e799",
-        "statusBar.background": "#000000",
-        "statusBar.debuggingBackground": "#000000",
-        "statusBar.debuggingForeground": "#e7e7e7",
-        "statusBar.foreground": "#e7e7e7",
-        "statusBarItem.hoverBackground": "#1a1a1a",
-        "statusBarItem.remoteBackground": "#000000",
-        "statusBarItem.remoteForeground": "#e7e7e7",
-        "statusBar.border": "#000000",
-        "statusBar.debuggingBorder": "#000000",
         "titleBar.border": "#000000"
     },
     "peacock.color": "#000000"

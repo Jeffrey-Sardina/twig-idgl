@@ -12,7 +12,7 @@ from hpbandster.optimizers import BOHB as BOHB
 from hpbandster.core.worker import Worker
 import hpbandster.core.nameserver as hpns
 import hpbandster.core.result as hpres
-import ConfigSpace as CS #hpbandster supports float, int, and categorial hyperparameters
+import ConfigSpace as CS #hpbandster supports float, int, and categorial hyperparameters only, not all in CS
 
 import sys
 sys.path.append("/workspace/") #Needed to be able to import from GNN_module
@@ -20,7 +20,13 @@ sys.path.append("/workspace/GNN_module/src/") #Needed to allow imported in code 
 from GNN_module.src.main import main as GNN_run
 
 class GNN_Worker(Worker):
+    '''
+    A class to define the GNN we want to run and allow it be used with BOHB
+    '''
     def __init__(self, idgl_config_file, additional_configs, *args, **kwargs):
+        '''
+        Set up the worker's configuration
+        '''
         super().__init__(*args, **kwargs)
 
         with open(idgl_config_file, "r") as conf:
@@ -61,25 +67,31 @@ class GNN_Worker(Worker):
                 }
     
     @staticmethod
-    def get_configspace():
+    def get_configspace(twig_config):
+        '''
+        Define the hyperparameter space to be searched
+        '''
         config_space = CS.ConfigurationSpace()
-        config_space.add_hyperparameter(CS.UniformFloatHyperparameter('learning_rate', lower=0, upper=10))
+
+        print(twig_config)
+
+        for hyperparam in twig_config["hyperparameters"]:
+            hyperparam_data = twig_config["hyperparameters"][hyperparam]
+            print(hyperparam_data)
+            if hyperparam_data['type'] == "uniform_float":
+                config_space.add_hyperparameter(CS.UniformFloatHyperparameter(hyperparam, lower=hyperparam_data["min"], upper=hyperparam_data["max"]))
+            elif hyperparam_data['type'] == "uniform_integer":
+                config_space.add_hyperparameter(CS.UniformIntegerHyperparameter(hyperparam, lower=hyperparam_data["min"], upper=hyperparam_data["max"]))
+            else:
+                raise ValueError("Unrecognized hyperparam type: ", hyperparam['type'])
         return config_space
 
 def run_sampler(args):
+    '''
+    Run the Neural Architecture Search (based on a BOHB sampler)
+    '''
     # Configure Logger
-    #logging.basicConfig(level=logging.WARNING)
-
-    # # Get cmd line arguments
-    # parser = argparse.ArgumentParser(description='Example 1 - sequential and local execution.')
-    # parser.add_argument('--min_budget', type=float, help='Minimum budget used during the optimization.', default=9)
-    # parser.add_argument('--max_budget', type=float, help='Maximum budget used during the optimization.', default=243)
-    # parser.add_argument('--n_iterations', type=int, help='Number of iterations performed by the optimizer', default=4)
-    # parser.add_argument('--run_id', type=str, help='Internal ID used to identify this run', default='nas_run_default_id')
-    # parser.add_argument('--host_addr', type=str, help='Network address to host the internal data server', default='127.0.0.1')
-    # parser.add_argument('--idgl_config_file', type=str, help='The configuration file for IDGL to use as a base')
-    # args=parser.parse_args()
-
+    logging.basicConfig(level=logging.WARNING)
 
     # Step 1: Start a nameserver
     # Every run needs a nameserver. It could be a 'static' server with a
@@ -105,7 +117,7 @@ def run_sampler(args):
     # Now we can create an optimizer object and start the run.
     # Here, we run BOHB, but that is not essential.
     # The run method will return the `Result` that contains all runs performed.
-    bohb = BOHB(configspace = worker.get_configspace(),
+    bohb = BOHB(configspace = worker.get_configspace(args),
                 run_id = args["run_id"], nameserver=args["host_addr"],
                 min_budget=args["min_budget"], max_budget=args["max_budget"]
             )

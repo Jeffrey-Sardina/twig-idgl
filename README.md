@@ -45,9 +45,9 @@ To start Twig-IDGL
 - at the project root, run ```$ docker-compose up```
 - open a terminal session in the container (for example, through the "Remote - Containers" extension in Visual Studio Code)
 - inside the container, run
-    - ```$ cd /workspace/IDGL/src/```
+    - ```$ cd /workspace/twig_module/```
     - ```$ conda activate pyenv```
-    - ```$ python main.py -config config/cora/idgl.yml```
+    - ```$ ./twig.py --do_your_job TwigJob.yml > twig_out```
 
 Verifying that everything works as expected
 - When the output prints "**************** MODEL CONFIGURATION ****************", ensure that the tag  "[ Using CUDA ]" appears below -- if not, the model will be running on CPU, not GPU, and take far too long to complete.
