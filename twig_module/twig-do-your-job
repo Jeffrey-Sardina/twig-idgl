@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/workspace/twig_module/twig.py --do_your_job TwigJob.yml > /workspace/output/twig_out

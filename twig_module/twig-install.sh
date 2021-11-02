@@ -15,13 +15,14 @@ fi
 
 #Install IDGL (part of the GNN_module)
 export PATH=$PATH:~/miniconda3/bin
-conda create -n "pyenv" python=3.7 pip
-conda run --no-capture-output -n pyenv pip install -r GNN_module/requirements.txt
-conda run --no-capture-output -n pyenv pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+conda create -n "twig_env" python=3.7 pip
+conda run --no-capture-output -n twig_env pip install -r GNN_module/requirements.txt
+conda run --no-capture-output -n twig_env pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
 conda init bash #new
 
 #Install hyperopt (part of the NAS_module)
-conda run --no-capture-output -n pyenv pip install hpbandster==0.7.4
+conda run --no-capture-output -n twig_env pip install hpbandster==0.7.4
 
 #Install Twig control module
-export PATH=$PATH:/workspace/twig_module
+echo 'export PATH=$PATH:/workspace/twig_module' >> ~/.bashrc
+echo "conda activate twig_env" >> ~/.bashrc

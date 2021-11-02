@@ -1,4 +1,3 @@
-Get loss function value
 Verify that my epoch hops have high correlation
-I need to close down all other programs that can use the GPU when I run Twig -- they can cause Out Of Memory errors because Torch does not allocate enough memory at the start
+I need to close down all other programs that can use the GPU when I run Twig -- they can cause Out Of Memory errors because Torch does not allocate enough memory at the start. That in turn happens since other programs are using GPU memory.
 - Is there a way I can prevent other programs from using the GPU at all?
