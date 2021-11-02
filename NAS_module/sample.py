@@ -8,6 +8,7 @@ import logging
 import yaml
 import argparse
 import numpy
+import torch
 from hpbandster.optimizers import BOHB as BOHB
 from hpbandster.core.worker import Worker
 import hpbandster.core.nameserver as hpns
@@ -18,6 +19,8 @@ import sys
 sys.path.append("/workspace/") #Needed to be able to import from GNN_module
 sys.path.append("/workspace/GNN_module/src/") #Needed to allow imported in code in GNN_module
 from GNN_module.src.main import main as GNN_run
+
+hyperparams_to_override = set()
 
 class GNN_Worker(Worker):
     '''
@@ -52,14 +55,16 @@ class GNN_Worker(Worker):
         """
 
         # Load the correct model configuration
-        idgl_hyperparams = ['learning_rate'] #Should have the same name in both dictionaries
-        for hyperparam in idgl_hyperparams:
+        for hyperparam in hyperparams_to_override:
             self.idgl_conf[hyperparam] = config[hyperparam]
         self.idgl_conf['max_epochs'] = budget
         self.idgl_conf['out_dir'] = "/tmp/" + "iteration_id_" + str(random.random())
 
         # Run the model configuration and collect the results
         res = GNN_run(self.idgl_conf)
+
+        # May break stuff
+        torch.cuda.empty_cache() #Otherwise old runs might take up memory later runs could use
 
         return {
                     'loss': float(res),  # this is the a mandatory field to run hyperband
@@ -76,6 +81,7 @@ class GNN_Worker(Worker):
         print(twig_config)
 
         for hyperparam in twig_config["hyperparameters"]:
+            hyperparams_to_override.add(hyperparam)
             hyperparam_data = twig_config["hyperparameters"][hyperparam]
             print(hyperparam_data)
             if hyperparam_data['type'] == "uniform_float":
@@ -133,9 +139,18 @@ def run_sampler(args):
     # It holds informations about the optimization run like the incumbent (=best) configuration.
     # For further details about the Result object, see its documentation.
     # Here we simply print out the best config and some statistics about the performed runs.
+    print("=========================")
     id2config = res.get_id2config_mapping()
     incumbent = res.get_incumbent_id()
     print('Best found configuration:', id2config[incumbent]['config'])
     print('A total of %i unique configurations where sampled.' % len(id2config.keys()))
     print('A total of %i runs where executed.' % len(res.get_all_runs()))
     print('Total budget corresponds to %.1f full function evaluations.'%(sum([r.budget for r in res.get_all_runs()])/args["max_budget"]))
+
+    # Get the entire config used
+    opt_config = id2config[incumbent]['config']
+    with open(args["idgl_config_file"], "r") as conf:
+        total_config = yaml.load(conf)
+    for hyperparam in hyperparams_to_override:
+        total_config[hyperparam] = opt_config[hyperparam]
+    return total_config

@@ -9,6 +9,8 @@ import os
 import sys
 sys.path.append("/workspace/")
 from NAS_module.sample import run_sampler
+sys.path.append("/workspace/GNN_module/src/") #Needed to allow imported in code in GNN_module
+from GNN_module.src.main import main as GNN_run
 
 config = None
 
@@ -32,12 +34,16 @@ def do_job():
     Then run IDGL on the resultant neural net and output results
     '''
     # Create AI
+    print('=========================NAS Starting=========================')
     neural_architecture = neural_architecture_search()
-    print(neural_architecture)
+    print('=========================NAS Done=========================')
+    print('NA:', neural_architecture)
 
     # Train AI
+    print('=========================Training Starting=========================')
     results = train_GNN(neural_architecture)
-    print(results)
+    print('=========================Training Done=========================')
+    print('results:', results)
 
 @in_idgl_dir
 def neural_architecture_search():
@@ -45,7 +51,7 @@ def neural_architecture_search():
 
 @in_idgl_dir
 def train_GNN(neural_architecture):
-    return None
+    return GNN_run(total_config)
 
 def load_config(filename):
     '''
