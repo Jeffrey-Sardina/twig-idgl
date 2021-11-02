@@ -6,9 +6,8 @@ max_budget: 300
 idgl_config_file: "/workspace/GNN_module/src/config/cora/idgl_anchor.yml"
 idgl_working_dir: "/workspace/GNN_module/src/"
 
-idgl_params:
-    out_dir: "/workspace/output/" #for the trained model, not NAS models
-
+idgl_params: null #would be a dict
+    
 hyperparameters:
     #Training
         #https://stackoverflow.com/questions/63108131/pytorch-schedule-learning-rate

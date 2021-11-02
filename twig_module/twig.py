@@ -52,8 +52,10 @@ def neural_architecture_search():
 @in_idgl_dir
 def train_GNN(neural_architecture):
     # Load some params, such as out dir, that are not part of NAS
-    for param in config["idgl_params"]:
-        neural_architecture[param] = config["idgl_params"][param]
+    if "idgl_params" in config:
+        for param in config["idgl_params"]:
+            neural_architecture[param] = config["idgl_params"][param]
+    neural_architecture["out_dir"] = config["out_dir"]
     return GNN_run(neural_architecture)
 
 def load_config(filename):
@@ -73,11 +75,15 @@ if __name__ == '__main__':
     #Get input
     parser = argparse.ArgumentParser(description='Twig arguments')
     parser.add_argument('--do_your_job', type=str, help="YAML file speicifying Twig's job", default="TwigJob.yml")
+    parser.add_argument('--run_id', type=str, help="The ID for this Twig run", default="TwigJob.yml")
+    parser.add_argument('--gnn_out_dir', type=str, help="The directory to store the final model", default="TwigJob.yml")
     args=parser.parse_args()
     
     # Load job config
     print("Loading job details...", end='')
     config = load_config(args.do_your_job)
+    config["run_id"] = args.run_id
+    config["out_dir"] = args.gnn_out_dir
     print("success")
 
     #Run job
