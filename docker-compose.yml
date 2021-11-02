@@ -13,6 +13,7 @@ services:
             - ./GNN_module/:/workspace/GNN_module
             - ./NAS_module/:/workspace/NAS_module
             - ./twig_module/:/workspace/twig_module
+            - ./output/:/workspace/output
 
         #Enable nvidia https://docs.docker.com/compose/gpu-support/
         deploy: 

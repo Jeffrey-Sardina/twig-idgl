@@ -51,6 +51,9 @@ def neural_architecture_search():
 
 @in_idgl_dir
 def train_GNN(neural_architecture):
+    # Load some params, such as out dir, that are not part of NAS
+    for param in config["idgl_params"]:
+        neural_architecture[param] = config["idgl_params"][param]
     return GNN_run(neural_architecture)
 
 def load_config(filename):

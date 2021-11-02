@@ -114,7 +114,7 @@ def run_sampler(args):
     # where it will wait for incoming configurations to evaluate.
     GNN_Worker.iteration_id = 0
     worker = GNN_Worker(args["idgl_config_file"],
-        additional_configs=args['idgl_params'][0],
+        additional_configs=None,
         nameserver=args["host_addr"],
         run_id=args["run_id"])
     worker.run(background=True)
