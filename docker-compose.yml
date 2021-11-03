@@ -9,7 +9,6 @@ services:
         #Set up workspace
         working_dir: /workspace
         volumes:
-            - ./data/:/workspace/data
             - ./GNN_module/:/workspace/GNN_module
             - ./NAS_module/:/workspace/NAS_module
             - ./twig_module/:/workspace/twig_module
