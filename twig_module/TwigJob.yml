@@ -55,15 +55,15 @@ hyperparameters:
 
     # Anchor params
     num_anchors:
-        min: 1
-        max: 20000
+        min: 100
+        max: 10000
         type: "uniform_integer"
 
     # Other
     # scalable_run: True #I think this means use the ANCHOR method
     hidden_size: #I think this is the size of the hidden layers (NOT the number of them); in the inner tensors it is one of the dimensions
         min: 1
-        max: 200
+        max: 100
         type: "uniform_integer"
 
     # Graph neural networks params
@@ -89,7 +89,7 @@ hyperparameters:
         type: "uniform_float"
     graph_learn_hidden_size: # 70 # kernel: 100, attention: 70
         min: 1
-        max: 200
+        max: 100
         type: "uniform_integer"
     graph_learn_num_pers: # A param to 2D tensor size # 4 # weighted_cosine: GL: 4, IGL: 4!
         min: 1
