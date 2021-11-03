@@ -46,7 +46,6 @@ To start Twig-IDGL
 - at the project root, run ```$ docker-compose up```
 - open a terminal session in the container (for example, through the "Remote - Containers" extension in Visual Studio Code)
 - inside the container, run ```$ twig-do-your-job```
-- output will be saved to ```/workspace/output/twig_out```
 
 Verifying that everything works as expected
 - Please maintain all the named versions used here -- Twig works correctly with the given versions of its dependencies, but may not work with other versions. Please note, however, that (especially post-2021) the use of newer GPUs may require a later version of PyTorch to be installed.
