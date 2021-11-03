@@ -7,7 +7,7 @@ MODEL_OUT_DIR="/workspace/output/models/$RUN_ID"
 
 echo "Running Twig...standard output (not including erros) will be routed to $STDOUT_DIR"
 echo "Model will be saved at $MODEL_OUT_DIR"
-/workspace/twig_module/twig.py --do_your_job TwigJob.yml --run_id $RUN_ID --gnn_out_dir $MODEL_OUT_DIR > $STDOUT_DIR
+/workspace/twig_module/twig.py --do_your_job /workspace/twig_module/TwigJob.yml --run_id $RUN_ID --gnn_out_dir $MODEL_OUT_DIR > $STDOUT_DIR
 
 END_TIME=$(date +"%Y-%m-%d"_%H-%M-%S)
 echo "Ended at $END_TIME"

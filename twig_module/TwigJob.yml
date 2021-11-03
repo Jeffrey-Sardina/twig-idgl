@@ -5,7 +5,7 @@ max_budget: 300
 idgl_config_file: "/workspace/GNN_module/src/config/cora/idgl_anchor.yml"
 idgl_working_dir: "/workspace/GNN_module/src/"
 
-idgl_params: null #would be a dict
+idgl_params: null #would be a dict if not null; currently not used
     
 hyperparameters:
     #Training
