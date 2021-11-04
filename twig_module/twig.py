@@ -83,7 +83,7 @@ if __name__ == '__main__':
     print("Hello, I am Twig. I do my job!")
 
     # Some data for intelligent defaults
-    timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
+    timestamp = datetime.datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
     default_run_id = "twig_default_job_" + timestamp
     
     # Get input

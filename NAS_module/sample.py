@@ -21,7 +21,7 @@ sys.path.append("/workspace/GNN_module/src/") #Needed to allow imported in code 
 from GNN_module.src.main import main as GNN_run
 
 import logging
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.ERROR)
 
 hyperparams_to_override = set()
 
