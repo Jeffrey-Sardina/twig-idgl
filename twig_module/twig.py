@@ -5,6 +5,7 @@ import sys
 import argparse
 import os
 import datetime
+import hpbandster.core.result as hpres
 
 import sys
 sys.path.append("/workspace/")
@@ -35,22 +36,21 @@ def do_job():
     Then run IDGL on the resultant neural net and output results
     '''
     # Create AI
-    print('=========================NAS Starting=========================')
-    neural_architecture = neural_architecture_search()
-    print('=========================NAS Done=========================')
-    print('NA:', neural_architecture)
+    # print('=========================NAS Starting=========================')
+    # neural_architecture = neural_architecture_search()
+    # print('=========================NAS Done=========================')
+    # print('NA:', neural_architecture)
 
-    # Train AI
-    print('=========================Training Starting=========================')
-    accuracy = train_GNN(neural_architecture)
-    print('=========================Training Done=========================')
-    print('accuracy:', accuracy)
+    # # Train AI
+    # print('=========================Training Starting=========================')
+    # accuracy = train_GNN(neural_architecture)
+    # print('=========================Training Done=========================')
+    # print('accuracy:', accuracy)
 
     # Run analysis
     print('=========================Analysis Starting=========================')
     accuracy = analyse()
     print('=========================Analysis Done=========================')
-    result = hpres.logged_results_to_HBS_result('example_5_run/')
 
 @in_idgl_dir
 def neural_architecture_search():
@@ -59,7 +59,7 @@ def neural_architecture_search():
 @in_idgl_dir
 def train_GNN(neural_architecture):
     # Load some params, such as out dir, that are not part of NAS
-    if "idgl_params" in config:
+    if "idgl_params" in config and config["idgl_params"]:
         for param in config["idgl_params"]:
             neural_architecture[param] = config["idgl_params"][param]
     neural_architecture["out_dir"] = config["out_dir"]

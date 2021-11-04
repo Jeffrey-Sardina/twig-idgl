@@ -9,6 +9,7 @@ import yaml
 import argparse
 import numpy
 import torch
+import os
 from hpbandster.optimizers import BOHB as BOHB
 from hpbandster.core.worker import Worker
 import hpbandster.core.nameserver as hpns
@@ -100,7 +101,8 @@ def run_sampler(args):
     Run the Neural Architecture Search (based on a BOHB sampler)
     '''
     # Configure Logger
-    result_logger = hpres.json_result_logger(directory=args["bohb_log_dir"], overwrite=False)
+    log_dir = os.path.join(args["bohb_log_dir"], args['run_id'])
+    result_logger = hpres.json_result_logger(directory=log_dir, overwrite=False)
 
     # Step 1: Start a nameserver
     # Every run needs a nameserver. It could be a 'static' server with a
