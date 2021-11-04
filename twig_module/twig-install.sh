@@ -22,6 +22,7 @@ conda init bash #new
 
 #Install hyperopt (part of the NAS_module)
 conda run --no-capture-output -n twig_env pip install hpbandster==0.7.4
+conda run --no-capture-output -n twig_env pip install matplotlib==3.4.3
 
 #Install Twig control module
 echo 'export PATH=$PATH:/workspace/twig_module' >> ~/.bashrc

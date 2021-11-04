@@ -2,13 +2,14 @@
 
 import yaml
 import sys
-import glob
 import argparse
 import os
+import datetime
 
 import sys
 sys.path.append("/workspace/")
 from NAS_module.sample import run_sampler
+from NAS_module.analyse import correlation_analysis
 sys.path.append("/workspace/GNN_module/src/") #Needed to allow imported in code in GNN_module
 from GNN_module.src.main import main as GNN_run
 
@@ -45,6 +46,12 @@ def do_job():
     print('=========================Training Done=========================')
     print('accuracy:', accuracy)
 
+    # Run analysis
+    print('=========================Analysis Starting=========================')
+    accuracy = analyse()
+    print('=========================Analysis Done=========================')
+    result = hpres.logged_results_to_HBS_result('example_5_run/')
+
 @in_idgl_dir
 def neural_architecture_search():
     return run_sampler(config)
@@ -57,6 +64,9 @@ def train_GNN(neural_architecture):
             neural_architecture[param] = config["idgl_params"][param]
     neural_architecture["out_dir"] = config["out_dir"]
     return GNN_run(neural_architecture)
+
+def analyse():
+    correlation_analysis(config)
 
 def load_config(filename):
     '''
@@ -72,18 +82,18 @@ def load_config(filename):
 if __name__ == '__main__':
     print("Hello, I am Twig. I do my job!")
 
-    #Get input
+    # Some data for intelligent defaults
+    timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
+    default_run_id = "twig_default_job_" + timestamp
+    
+    # Get input
     parser = argparse.ArgumentParser(description='Twig arguments')
     parser.add_argument('--do_your_job', type=str, help="YAML file speicifying Twig's job", default="TwigJob.yml")
-    parser.add_argument('--run_id', type=str, help="The ID for this Twig run", default="TwigJob.yml")
-    parser.add_argument('--gnn_out_dir', type=str, help="The directory to store the final model", default="TwigJob.yml")
     args=parser.parse_args()
     
     # Load job config
     print("Loading job details...", end='')
     config = load_config(args.do_your_job)
-    config["run_id"] = args.run_id
-    config["out_dir"] = args.gnn_out_dir
     print("success")
 
     #Run job

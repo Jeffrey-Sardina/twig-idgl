@@ -20,6 +20,9 @@ sys.path.append("/workspace/") #Needed to be able to import from GNN_module
 sys.path.append("/workspace/GNN_module/src/") #Needed to allow imported in code in GNN_module
 from GNN_module.src.main import main as GNN_run
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 hyperparams_to_override = set()
 
 class GNN_Worker(Worker):
@@ -97,7 +100,7 @@ def run_sampler(args):
     Run the Neural Architecture Search (based on a BOHB sampler)
     '''
     # Configure Logger
-    logging.basicConfig(level=logging.WARNING)
+    result_logger = hpres.json_result_logger(directory=args["bohb_log_dir"], overwrite=False)
 
     # Step 1: Start a nameserver
     # Every run needs a nameserver. It could be a 'static' server with a
@@ -124,8 +127,11 @@ def run_sampler(args):
     # Here, we run BOHB, but that is not essential.
     # The run method will return the `Result` that contains all runs performed.
     bohb = BOHB(configspace = worker.get_configspace(args),
-                run_id = args["run_id"], nameserver=args["host_addr"],
-                min_budget=args["min_budget"], max_budget=args["max_budget"]
+                run_id = args["run_id"],
+                nameserver=args["host_addr"],
+                min_budget=args["min_budget"],
+                max_budget=args["max_budget"],
+                result_logger=result_logger
             )
     res = bohb.run(n_iterations=args["n_iterations"])
 
