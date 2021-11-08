@@ -9,7 +9,7 @@ def load_config(filename):
     '''
     try:
         with open(filename, 'r') as config_file:
-            config = yaml.load(config_file)
+            config = yaml.load(config_file, Loader=yaml.FullLoader)
     except:
         raise ValueError("Could not load configuration for running Twig.", filename)
     return config

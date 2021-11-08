@@ -10,6 +10,7 @@ import argparse
 import numpy
 import torch
 import os
+import shutil
 from hpbandster.optimizers import BOHB as BOHB
 from hpbandster.core.worker import Worker
 import hpbandster.core.nameserver as hpns
@@ -30,23 +31,29 @@ class GNN_Worker(Worker):
     '''
     A class to define the GNN we want to run and allow it be used with BOHB
     '''
-    def __init__(self, idgl_config_file, additional_configs, *args, **kwargs):
+    def __init__(self, idgl_config_file, checkpoint_out_dir, additional_configs, *args, **kwargs):
         '''
         Set up the worker's configuration
         '''
         super().__init__(*args, **kwargs)
+        print("in __init__")
+
+        self.run_id = kwargs["run_id"]
+        self.checkpoint_out_dir = checkpoint_out_dir
 
         with open(idgl_config_file, "r") as conf:
-            self.idgl_conf = yaml.load(conf)
+            self.idgl_conf = yaml.load(conf, Loader=yaml.FullLoader)
         if additional_configs:
             for key in additional_configs:
                 self.idgl_conf[key] = additional_configs[key]
 
-    def compute(self, config, budget, **kwargs):
+    def compute(self, config_id, config, budget, working_directory):
         """
         Parameters:
-            config: dictionary containing the sampled configurations by the optimizer
+            config_id: (int tuple) an int tuple uniquely identiying this run provided by HyperBandster
+            config: (dict) dictionary containing the sampled configurations by the optimizer
             budget: (float) amount of epochs to use
+            working_directory: (str) the current working directory
 
         Returns:
             dictionary with mandatory fields:
@@ -57,23 +64,53 @@ class GNN_Worker(Worker):
         The parameters of this dict need to be loaded into the full idgl_conf needed by IDGL. Then, the resultant
             config can be used to call IDGL's main function
         """
+        print("In compute")
 
+        # Load checkpointing data
+        checkpoint_dir = os.path.join(self.checkpoint_out_dir, self.run_id, "_".join(str(x) for x in config_id))
+        checkpoint_file = os.path.join(checkpoint_dir, "checkpoint.yml")
+
+        # Restore checkpoint if it exists; else create a checkpoint directory
+        if os.path.isdir(checkpoint_dir):
+            if os.path.exists(checkpoint_file):
+                try:
+                    with open(checkpoint_file, 'r') as checkpoint:
+                        checkpoint_data = yaml.load(checkpoint, Loader=yaml.FullLoader)
+                    print("Using checkpoint for iteration with config_id:", config_id)
+                    print(os.path.abspath(checkpoint_file))
+                    return {
+                        'loss': checkpoint_data["loss"], # this is the a mandatory field to run hyperband
+                        'info': checkpoint_data["info"] # can be used for any user-defined information - also mandatory
+                    }
+                except:
+                    raise ValueError("Could not load checkpoint.", checkpoint_file)
+            else:
+                    shutil.rmtree(checkpoint_dir)
+        
         # Load the correct model configuration
+        tmp_idgl_conf = {k:self.idgl_conf[k] for k in self.idgl_conf}
         for hyperparam in hyperparams_to_override:
-            self.idgl_conf[hyperparam] = config[hyperparam]
-        self.idgl_conf['max_epochs'] = budget
-        self.idgl_conf['out_dir'] = "/tmp/" + "iteration_id_" + str(random.random())
+            tmp_idgl_conf[hyperparam] = config[hyperparam]
+        tmp_idgl_conf['max_epochs'] = budget
+        tmp_idgl_conf['out_dir'] = checkpoint_dir #"/tmp/" + "iteration_id_" + str(random.random())
 
         # Run the model configuration and collect the results
-        res = GNN_run(self.idgl_conf)
+        res = GNN_run(tmp_idgl_conf)
 
-        # May break stuff
+        # Release CUDA memory
         torch.cuda.empty_cache() #Otherwise old runs might take up memory later runs could use
 
-        return {
+        # Get Run Data
+        return_dict = {
                     'loss': float(res),  # this is the a mandatory field to run hyperband
-                    'info': res  # can be used for any user-defined information - also mandatory
+                    'info': checkpoint_file #res  # can be used for any user-defined information - also mandatory
                 }
+
+        # Write the results to disk as a checkpoint
+        with open(checkpoint_file, 'w') as checkpoint:
+            yaml.dump(return_dict, checkpoint)
+
+        return return_dict
     
     @staticmethod
     def get_configspace(twig_config):
@@ -100,16 +137,17 @@ def run_sampler(args):
     '''
     Run the Neural Architecture Search (based on a BOHB sampler)
     '''
+    print("In run_sampler")
     # Configure Logger
     log_dir = os.path.join(args["bohb_log_dir"], args['run_id'])
-    result_logger = hpres.json_result_logger(directory=log_dir, overwrite=False)
+    result_logger = hpres.json_result_logger(directory=log_dir, overwrite=args["allow_resume"])
 
     # Step 1: Start a nameserver
     # Every run needs a nameserver. It could be a 'static' server with a
     # permanent address, but here it will be started for the local machine with the default port.
     # The nameserver manages the concurrent running workers across all possible threads or clusternodes.
     # Note the run_id argument. This uniquely identifies a run of any HpBandSter optimizer.
-    NS = hpns.NameServer(run_id=args["run_id"], host=args["host_addr"], port=None)
+    NS = hpns.NameServer(run_id=args["run_id"], host=args["host_addr"], working_directory=os.path.join(args["out_dir"], args["run_id"]), port=None)
     NS.start()
 
     # Step 2: Start a worker
@@ -117,8 +155,9 @@ def run_sampler(args):
     # Besides the sleep_interval, we need to define the nameserver information and
     # the same run_id as above. After that, we can start the worker in the background,
     # where it will wait for incoming configurations to evaluate.
-    GNN_Worker.iteration_id = 0
+    print(1)
     worker = GNN_Worker(args["idgl_config_file"],
+        args["out_dir"],
         additional_configs=None,
         nameserver=args["host_addr"],
         run_id=args["run_id"])
@@ -128,6 +167,7 @@ def run_sampler(args):
     # Now we can create an optimizer object and start the run.
     # Here, we run BOHB, but that is not essential.
     # The run method will return the `Result` that contains all runs performed.
+    print(4)
     bohb = BOHB(configspace = worker.get_configspace(args),
                 run_id = args["run_id"],
                 nameserver=args["host_addr"],
@@ -158,7 +198,7 @@ def run_sampler(args):
     # Get the entire config used
     opt_config = id2config[incumbent]['config']
     with open(args["idgl_config_file"], "r") as conf:
-        total_config = yaml.load(conf)
+        total_config = yaml.load(conf, Loader=yaml.FullLoader)
     for hyperparam in hyperparams_to_override:
         total_config[hyperparam] = opt_config[hyperparam]
     return total_config

@@ -1,20 +1,34 @@
 #!/bin/bash
 
+TWIGJOB_FILE=$1
+
+ALLOW_RESUME=$(/workspace/twig_module/get_value.py --yaml_file /workspace/twig_module/TwigJob.yml --item allow_resume)
 RUN_ID=$(/workspace/twig_module/get_value.py --yaml_file /workspace/twig_module/TwigJob.yml --item run_id)
 OUT_FILE=/workspace/output/models/$RUN_ID.std_out
 ERR_FILE=/workspace/output/models/$RUN_ID.std_err
 
-if [[ -f  $OUT_FILE ]]
+if [[ $ALLOW_RESUME == "False" ]]
 then
-    echo "ERROR: $OUT_FILE already exists, stopping"
+    echo $ALLOW_RESUME
+    if [[ -f  $OUT_FILE ]]
+    then
+        echo "ERROR: $OUT_FILE already exists, stopping"
+        exit 1
+    fi
+
+    if [[ -d /workspace/output/models/$RUN_ID ]]
+    then
+        echo "ERROR: /workspace/output/models/$RUN_ID already exists, stopping"
+        exit 1
+    fi
+elif [[ $ALLOW_RESUME -ne "True" ]]
+then
+    echo "ERROR: invalid value for allow_resume in TwigJob file"
     exit 1
 fi
 
-if [[ -d /workspace/output/models/$RUN_ID ]]
-then
-    echo "ERROR: /workspace/output/models/$RUN_ID already exists, stopping"
-    exit 1
-fi
+# cp /workspace/twig_module/TwigJob.yml /workspace/output/models/$RUN_ID.TwigJob.yml
+#time /workspace/twig_module/twig.py --do_your_job /workspace/twig_module/TwigJob.yml > $OUT_FILE 2> $ERR_FILE
 
-cp /workspace/twig_module/TwigJob.yml /workspace/output/models/$RUN_ID.TwigJob.yml
-time /workspace/twig_module/twig.py --do_your_job /workspace/twig_module/TwigJob.yml > $OUT_FILE 2> $ERR_FILE
+cp $TWIGJOB_FILE /workspace/output/models/$RUN_ID.TwigJob.yml
+time /workspace/twig_module/twig.py --do_your_job $TWIGJOB_FILE > $OUT_FILE 2> $ERR_FILE

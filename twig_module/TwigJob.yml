@@ -2,8 +2,9 @@
 idgl_working_dir: "/workspace/GNN_module/src/"
 
 # IO data
+allow_resume: True
 idgl_config_file: "/workspace/GNN_module/src/config/cora/idgl_anchor.yml"
-run_id: "twig_large_run"
+run_id: "twig_test_1re"
 out_dir: "/workspace/output/models/" #for the GNN model
 bohb_log_dir: "/workspace/output/bohb_logs/"
 host_addr: "127.0.0.1"
@@ -12,14 +13,18 @@ host_addr: "127.0.0.1"
 idgl_params: null #would be a dict if not null; currently not used
 
 # BOHB running commands
-n_iterations: 50
-min_budget: 20
-max_budget: 10000
+# n_iterations: 50
+# min_budget: 20
+# max_budget: 10000
+
+n_iterations: 1
+min_budget: 1
+max_budget: 10
 
 # yperparameter definitions
 hyperparameters:
     #Training
-        #https://stackoverflow.com/questions/63108131/pytorch-schedule-learning-rate
+        # https://stackoverflow.com/questions/63108131/pytorch-schedule-learning-rate
         # https://deepai.org/machine-learning-glossary-and-terms/gradient-clipping
         # https://towardsdatascience.com/what-is-gradient-accumulation-in-deep-learning-ec034122cfa
     learning_rate:

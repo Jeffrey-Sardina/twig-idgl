@@ -62,14 +62,14 @@ def train_GNN(neural_architecture):
     if "idgl_params" in config and config["idgl_params"]:
         for param in config["idgl_params"]:
             neural_architecture[param] = config["idgl_params"][param]
-    neural_architecture["out_dir"] = os.path.join(config["out_dir"], config["run_id"])
+    neural_architecture["out_dir"] = os.path.join(config["out_dir"], config["run_id"], "train")
     return GNN_run(neural_architecture)
 
 def analyse():
     correlation_analysis(config)
 
 def check_dirs():
-    os.makedirs(os.path.join(config["bohb_log_dir"], config["run_id"]), exist_ok=False)
+    os.makedirs(os.path.join(config["bohb_log_dir"], config["run_id"]), exist_ok=config["allow_resume"])
 
 def load_config(filename):
     '''
@@ -77,7 +77,7 @@ def load_config(filename):
     '''
     try:
         with open(filename, 'r') as config_file:
-            config = yaml.load(config_file)
+            config = yaml.load(config_file, Loader=yaml.FullLoader)
     except:
         raise ValueError("Could not load configuration for running Twig.", filename)
     return config
