@@ -39,26 +39,26 @@ def correlation_analysis(config):
     # Let's plot the observed losses grouped by budget,
     hpvis.losses_over_time(all_runs)
     plt.show()
-    plt.savefig(os.path.join(log_dir, config["run_id"] + "_losses_over_time.png", bbox_inches="tight"))
+    plt.savefig(os.path.join(log_dir, config["run_id"] + "_losses_over_time.png"), bbox_inches="tight")
 
     # the number of concurent runs,
     hpvis.concurrent_runs_over_time(all_runs)
     plt.show()
-    plt.savefig(os.path.join(log_dir, config["run_id"] + "_concurrent_runs_over_time.png", bbox_inches="tight"))
+    plt.savefig(os.path.join(log_dir, config["run_id"] + "_concurrent_runs_over_time.png"), bbox_inches="tight")
 
     # and the number of finished runs.
     hpvis.finished_runs_over_time(all_runs)
     plt.show()
-    plt.savefig(os.path.join(log_dir, config["run_id"] + "_finished_runs_over_time.png", bbox_inches="tight"))
+    plt.savefig(os.path.join(log_dir, config["run_id"] + "_finished_runs_over_time.png"), bbox_inches="tight")
 
     # This one visualizes the spearman rank correlation coefficients of the losses
     # between different budgets.
     hpvis.correlation_across_budgets(result)
     plt.show()
-    plt.savefig(os.path.join(log_dir, config["run_id"] + "_correlation_across_budgets.png", bbox_inches="tight"))
+    plt.savefig(os.path.join(log_dir, config["run_id"] + "_correlation_across_budgets.png"), bbox_inches="tight")
 
     # For model based optimizers, one might wonder how much the model actually helped.
     # The next plot compares the performance of configs picked by the model vs. random ones
     hpvis.performance_histogram_model_vs_random(all_runs, id2conf)
     plt.show()
-    plt.savefig(os.path.join(log_dir, config["run_id"] + "_performance_histogram_model_vs_random.png", bbox_inches="tight"))
+    plt.savefig(os.path.join(log_dir, config["run_id"] + "_performance_histogram_model_vs_random.png"), bbox_inches="tight")

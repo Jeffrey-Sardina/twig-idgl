@@ -36,20 +36,20 @@ def do_job():
     Then run IDGL on the resultant neural net and output results
     '''
     # Create AI
-    # print('=========================NAS Starting=========================')
-    # neural_architecture = neural_architecture_search()
-    # print('=========================NAS Done=========================')
-    # print('NA:', neural_architecture)
+    print('=========================NAS Starting=========================')
+    neural_architecture = neural_architecture_search()
+    print('=========================NAS Done=========================')
+    print('NA:', neural_architecture)
 
-    # # Train AI
-    # print('=========================Training Starting=========================')
-    # accuracy = train_GNN(neural_architecture)
-    # print('=========================Training Done=========================')
-    # print('accuracy:', accuracy)
+    # Train AI
+    print('=========================Training Starting=========================')
+    accuracy = train_GNN(neural_architecture)
+    print('=========================Training Done=========================')
+    print('accuracy:', accuracy)
 
     # Run analysis
     print('=========================Analysis Starting=========================')
-    accuracy = analyse()
+    analyse()
     print('=========================Analysis Done=========================')
 
 @in_idgl_dir
@@ -62,11 +62,14 @@ def train_GNN(neural_architecture):
     if "idgl_params" in config and config["idgl_params"]:
         for param in config["idgl_params"]:
             neural_architecture[param] = config["idgl_params"][param]
-    neural_architecture["out_dir"] = config["out_dir"]
+    neural_architecture["out_dir"] = os.path.join(config["out_dir"], config["run_id"])
     return GNN_run(neural_architecture)
 
 def analyse():
     correlation_analysis(config)
+
+def check_dirs():
+    os.makedirs(os.path.join(config["bohb_log_dir"], config["run_id"]), exist_ok=False)
 
 def load_config(filename):
     '''
@@ -95,6 +98,9 @@ if __name__ == '__main__':
     print("Loading job details...", end='')
     config = load_config(args.do_your_job)
     print("success")
+
+    # Set up directories and check they are not used
+    check_dirs()
 
     #Run job
     print("Doing my job!")
