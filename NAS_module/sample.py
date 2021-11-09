@@ -31,21 +31,25 @@ class GNN_Worker(Worker):
     '''
     A class to define the GNN we want to run and allow it be used with BOHB
     '''
-    def __init__(self, idgl_config_file, checkpoint_out_dir, additional_configs, *args, **kwargs):
+    def __init__(self, idgl_config_file, *args, twig_config=None, **kwargs):
         '''
         Set up the worker's configuration
         '''
         super().__init__(*args, **kwargs)
-        print("in __init__")
 
         self.run_id = kwargs["run_id"]
-        self.checkpoint_out_dir = checkpoint_out_dir
+        self.twig_config = twig_config
 
+        # Load base IDGL file
         with open(idgl_config_file, "r") as conf:
             self.idgl_conf = yaml.load(conf, Loader=yaml.FullLoader)
-        if additional_configs:
-            for key in additional_configs:
-                self.idgl_conf[key] = additional_configs[key]
+
+        # Load override parameters from the TwigJob file
+        if "idgl_params" in self.twig_config and self.twig_config["idgl_params"]:
+            for param in self.twig_config["idgl_params"]:
+                self.idgl_conf[param] = self.twig_config["idgl_params"][param]
+                print(param, self.twig_config["idgl_params"][param])
+                print(self.idgl_conf[param])
 
     def compute(self, config_id, config, budget, working_directory):
         """
@@ -60,14 +64,13 @@ class GNN_Worker(Worker):
                 'loss' (scalar)
                 'info' (dict)
 
-        IDGL normally loads config from a YAML file, but I cna just pass it a dictionary with the same struct
+        IDGL normally loads config from a YAML file, but I can just pass it a dictionary with the same struct
         The parameters of this dict need to be loaded into the full idgl_conf needed by IDGL. Then, the resultant
             config can be used to call IDGL's main function
         """
-        print("In compute")
 
         # Load checkpointing data
-        checkpoint_dir = os.path.join(self.checkpoint_out_dir, self.run_id, "_".join(str(x) for x in config_id))
+        checkpoint_dir = os.path.join(self.twig_config["out_dir"], self.run_id, "_".join(str(x) for x in config_id))
         checkpoint_file = os.path.join(checkpoint_dir, "checkpoint.yml")
 
         # Restore checkpoint if it exists; else create a checkpoint directory
@@ -119,8 +122,6 @@ class GNN_Worker(Worker):
         '''
         config_space = CS.ConfigurationSpace()
 
-        print(twig_config)
-
         for hyperparam in twig_config["hyperparameters"]:
             hyperparams_to_override.add(hyperparam)
             hyperparam_data = twig_config["hyperparameters"][hyperparam]
@@ -137,7 +138,6 @@ def run_sampler(args):
     '''
     Run the Neural Architecture Search (based on a BOHB sampler)
     '''
-    print("In run_sampler")
     # Configure Logger
     log_dir = os.path.join(args["bohb_log_dir"], args['run_id'])
     result_logger = hpres.json_result_logger(directory=log_dir, overwrite=args["allow_resume"])
@@ -155,19 +155,16 @@ def run_sampler(args):
     # Besides the sleep_interval, we need to define the nameserver information and
     # the same run_id as above. After that, we can start the worker in the background,
     # where it will wait for incoming configurations to evaluate.
-    print(1)
     worker = GNN_Worker(args["idgl_config_file"],
-        args["out_dir"],
-        additional_configs=None,
         nameserver=args["host_addr"],
-        run_id=args["run_id"])
+        run_id=args["run_id"],
+        twig_config=args)
     worker.run(background=True)
 
     # Step 3: Run an optimizer
     # Now we can create an optimizer object and start the run.
     # Here, we run BOHB, but that is not essential.
     # The run method will return the `Result` that contains all runs performed.
-    print(4)
     bohb = BOHB(configspace = worker.get_configspace(args),
                 run_id = args["run_id"],
                 nameserver=args["host_addr"],
