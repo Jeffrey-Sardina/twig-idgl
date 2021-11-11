@@ -4,20 +4,20 @@ idgl_working_dir: "/workspace/GNN_module/src/"
 # IO data
 allow_resume: True
 idgl_config_file: "/workspace/GNN_module/src/config/cora/idgl_anchor.yml"
-run_id: "twig_large_n5_bdg10000_xlrmax_repeat3"
+run_id: "twig_large_n5_bdg10000_loglr_repeat"
 out_dir: "/workspace/output/models/" #for the GNN model
 bohb_log_dir: "/workspace/output/bohb_logs/"
 host_addr: "127.0.0.1"
 
 # IDGL parameters
 idgl_params:
-    seed: 44 #change between repeat runs!
-    random_seed: 1226 #change between repeat runs!
+    seed: 43 #change between repeat runs!
+    random_seed: 1221 #change between repeat runs!
 
 # BOHB running commands
 n_iterations: 5 #this is the number of iterations used in successive halving
 min_budget: 20
-max_budget: 10000
+max_budget: 1000
 
 # yperparameter definitions
 hyperparameters:
@@ -26,13 +26,13 @@ hyperparameters:
         # https://deepai.org/machine-learning-glossary-and-terms/gradient-clipping
         # https://towardsdatascience.com/what-is-gradient-accumulation-in-deep-learning-ec034122cfa
     learning_rate:
-        min: 0
+        min: 0.00001
         max: 1
-        type: "uniform_float"
+        type: "log_uniform_float"
     weight_decay:
-        min: 0
+        min: 0.00001
         max: 1
-        type: "uniform_float"
+        type: "log_uniform_float"
     lr_reduce_factor:
         min: 0
         max: 1
@@ -75,8 +75,8 @@ hyperparameters:
     # Other
     # scalable_run: True #I think this means use the ANCHOR method
     hidden_size: #I think this is the size of the hidden layers (NOT the number of them); in the inner tensors it is one of the dimensions
-        min: 1
-        max: 100
+        min: 10
+        max: 90
         type: "uniform_integer"
 
     # Graph neural networks params
@@ -93,16 +93,16 @@ hyperparameters:
         max: 1
         type: "uniform_float"
     degree_ratio: # 0 # 0!
-        min: 0
+        min: 0.00001
         max: 1
-        type: "uniform_float"
+        type: "log_uniform_float"
     sparsity_ratio: #0.1 # 0, IL: 0.1!
         min: 0
         max: 1
         type: "uniform_float"
     graph_learn_hidden_size: # 70 # kernel: 100, attention: 70
-        min: 1
-        max: 100
+        min: 10
+        max: 90
         type: "uniform_integer"
     graph_learn_num_pers: # A param to 2D tensor size # 4 # weighted_cosine: GL: 4, IGL: 4!
         min: 1

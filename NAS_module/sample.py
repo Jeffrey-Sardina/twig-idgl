@@ -127,9 +127,17 @@ class GNN_Worker(Worker):
             hyperparam_data = twig_config["hyperparameters"][hyperparam]
             print(hyperparam_data)
             if hyperparam_data['type'] == "uniform_float":
+                print("uniform_float")
                 config_space.add_hyperparameter(CS.UniformFloatHyperparameter(hyperparam, lower=hyperparam_data["min"], upper=hyperparam_data["max"]))
             elif hyperparam_data['type'] == "uniform_integer":
+                print("uniform_integer")
                 config_space.add_hyperparameter(CS.UniformIntegerHyperparameter(hyperparam, lower=hyperparam_data["min"], upper=hyperparam_data["max"]))
+            elif hyperparam_data['type'] == "log_uniform_float":
+                print("log_uniform_float")
+                config_space.add_hyperparameter(CS.UniformFloatHyperparameter(hyperparam, lower=hyperparam_data["min"], upper=hyperparam_data["max"], log=True))
+            elif hyperparam_data['type'] == "log_uniform_integer":
+                print("log_uniform_integer")
+                config_space.add_hyperparameter(CS.UniformIntegerHyperparameter(hyperparam, lower=hyperparam_data["min"], upper=hyperparam_data["max"], log=True))
             else:
                 raise ValueError("Unrecognized hyperparam type: ", hyperparam['type'])
         return config_space

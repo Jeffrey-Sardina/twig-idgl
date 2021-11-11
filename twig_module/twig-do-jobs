@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo 1
+twig-do-your-job /workspace/twig_module/TwigJob.yml
+
+echo 2
+twig-do-your-job /workspace/twig_module/TwigJob2.yml
+
+echo 3
+twig-do-your-job /workspace/twig_module/TwigJob3.yml

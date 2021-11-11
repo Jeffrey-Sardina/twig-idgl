@@ -2,11 +2,21 @@
 
 TWIGJOB_FILE=$1
 
-ALLOW_RESUME=$(/workspace/twig_module/get_value.py --yaml_file /workspace/twig_module/TwigJob.yml --item allow_resume)
-RUN_ID=$(/workspace/twig_module/get_value.py --yaml_file /workspace/twig_module/TwigJob.yml --item run_id)
+# Make folders if needed
+[[ -d /workspace/output/models ]] || mkdir /workspace/output/models/
+[[ -d /workspace/output/bohb_logs ]] || mkdir /workspace/output/bohb_logs
+
+# Copy TwigJob file and use that one
+cp $TWIGJOB_FILE /workspace/output/models/$RUN_ID.TwigJob.yml
+TWIGJOB_FILE=/workspace/output/models/$RUN_ID.TwigJob.yml
+
+# Get Job data
+ALLOW_RESUME=$(/workspace/twig_module/get_value.py --yaml_file $TWIGJOB_FILE --item allow_resume)
+RUN_ID=$(/workspace/twig_module/get_value.py --yaml_file $TWIGJOB_FILE --item run_id)
 OUT_FILE=/workspace/output/models/$RUN_ID.std_out
 ERR_FILE=/workspace/output/models/$RUN_ID.std_err
 
+# Validate data and IO
 if [[ $ALLOW_RESUME == "False" ]]
 then
     echo $ALLOW_RESUME
@@ -27,8 +37,4 @@ then
     exit 1
 fi
 
-# cp /workspace/twig_module/TwigJob.yml /workspace/output/models/$RUN_ID.TwigJob.yml
-#time /workspace/twig_module/twig.py --do_your_job /workspace/twig_module/TwigJob.yml > $OUT_FILE 2> $ERR_FILE
-
-cp $TWIGJOB_FILE /workspace/output/models/$RUN_ID.TwigJob.yml
 time /workspace/twig_module/twig.py --do_your_job $TWIGJOB_FILE > $OUT_FILE 2> $ERR_FILE

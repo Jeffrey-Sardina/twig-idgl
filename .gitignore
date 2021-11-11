@@ -1,3 +1,4 @@
 output/*.*
 output/bohb_logs/*
 output/models/*
+output/save/*
