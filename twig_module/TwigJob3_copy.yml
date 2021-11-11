@@ -4,20 +4,20 @@ idgl_working_dir: "/workspace/GNN_module/src/"
 # IO data
 allow_resume: True
 idgl_config_file: "/workspace/GNN_module/src/config/cora/idgl_anchor.yml"
-run_id: "twig_large_n20_bdg1000_loglr"
+run_id: "twig_large_n5_bdg10000_loglr_repeat"
 out_dir: "/workspace/output/models/" #for the GNN model
 bohb_log_dir: "/workspace/output/bohb_logs/"
 host_addr: "127.0.0.1"
 
 # IDGL parameters
 idgl_params:
-    seed: 4 #change between repeat runs!
-    random_seed: 4 #change between repeat runs!
+    seed: 5 #change between repeat runs!
+    random_seed: 5 #change between repeat runs!
 
 # BOHB running commands
-n_iterations: 20 #this is the number of iterations used in successive halving
+n_iterations: 5 #this is the number of iterations used in successive halving
 min_budget: 20
-max_budget: 1000
+max_budget: 10000
 
 # yperparameter definitions
 hyperparameters:
