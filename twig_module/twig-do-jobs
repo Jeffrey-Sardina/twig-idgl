@@ -1,16 +1,5 @@
 #!/bin/bash
 
-echo 1
-twig-do-your-job /workspace/twig_module/TwigJob.yml
-echo 1.2
-twig-do-your-job /workspace/twig_module/TwigJob_copy.yml
-
-echo 2
-twig-do-your-job /workspace/twig_module/TwigJob2.yml
-echo 2.2
-twig-do-your-job /workspace/twig_module/TwigJob2_copy.yml
-
-echo 3
-twig-do-your-job /workspace/twig_module/TwigJob3.yml
-echo 3.2
-twig-do-your-job /workspace/twig_module/TwigJob3_copy.yml
+echo "start"
+twig-do-your-job /workspace/twig_module/TwigJob_80_250_re.yml
+echo "done"

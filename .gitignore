@@ -2,3 +2,4 @@ output/*.*
 output/bohb_logs/*
 output/models/*
 output/save/*
+output/train_failed_oom/*

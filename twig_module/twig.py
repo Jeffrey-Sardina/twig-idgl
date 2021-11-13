@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
 import yaml
+import json
 import sys
 import argparse
 import os
 import datetime
 import hpbandster.core.result as hpres
+import torch
 
 import sys
 sys.path.append("/workspace/")
@@ -30,19 +32,26 @@ def in_idgl_dir(func):
         return output
     return inner
 
-def do_job():
+def do_job(NA_file=None):
     '''
     Run Neural Architecutre Search (NAS) to generate the neural net
     Then run IDGL on the resultant neural net and output results
     '''
     # Create AI
-    print('=========================NAS Starting=========================')
-    neural_architecture = neural_architecture_search()
-    print('=========================NAS Done=========================')
-    print('NA:', neural_architecture)
+    if not NA_file:
+        print('=========================NAS Starting=========================')
+        neural_architecture = neural_architecture_search()
+        print('=========================NAS Done=========================')
+        print('NA:', neural_architecture)
+    else:
+        print('=========================Loading NA=========================')
+        neural_architecture = load_NA(NA_file)
+        print('=========================NA Loaded=========================')
+        print('NA:', neural_architecture)
 
     # Train AI
     print('=========================Training Starting=========================')
+    torch.cuda.empty_cache()
     accuracy = train_GNN(neural_architecture)
     print('=========================Training Done=========================')
     print('accuracy:', accuracy)
@@ -51,6 +60,10 @@ def do_job():
     print('=========================Analysis Starting=========================')
     analyse()
     print('=========================Analysis Done=========================')
+
+def load_NA(NA_file):
+    with open(NA_file, 'r') as NA:
+        return json.load(NA)
 
 @in_idgl_dir
 def neural_architecture_search():
@@ -62,7 +75,7 @@ def train_GNN(neural_architecture):
     if "idgl_params" in config and config["idgl_params"]:
         for param in config["idgl_params"]:
             neural_architecture[param] = config["idgl_params"][param]
-    neural_architecture["out_dir"] = os.path.join(config["out_dir"], config["run_id"], "train")
+    neural_architecture["out_dir"] = os.path.join(config["out_dir"], config["run_id"], "train_restored")
     return GNN_run(neural_architecture)
 
 def analyse():
@@ -92,6 +105,8 @@ if __name__ == '__main__':
     # Get input
     parser = argparse.ArgumentParser(description='Twig arguments')
     parser.add_argument('--do_your_job', type=str, help="YAML file speicifying Twig's job", default="TwigJob.yml")
+    parser.add_argument('--skip_NAS', type=str, help="If True, do not run NAS, only training and analysis", default=False)
+    parser.add_argument('--neural_architecture', type=str, help="JSON file speicifying a pre-made neural archtecture. Only takes effect if skip_NAS is True", default=None)
     args=parser.parse_args()
     
     # Load job config
@@ -102,9 +117,9 @@ if __name__ == '__main__':
     # Set up directories and check they are not used
     check_dirs()
 
-    #Run job
+    # Run job
     print("Doing my job!")
-    do_job()
+    do_job(NA_file=args.neural_architecture)
     print("Job completed successfully!")
     exit(0)
     

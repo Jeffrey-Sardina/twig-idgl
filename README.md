@@ -5,7 +5,7 @@ Twig is the **T**wig **W**izard for **I**ntelligence **G**eneration. It is curre
 
 This version of TWIG makes use of IDGL, a GNN library developed by Chen et al, for GNN training. Its license can be found in the folder IDGL/LICENSE. As per the license terms "You must cause any modified files to carry prominent notices stating that You changed the files", all modified or add files in the IDGL folder have been clearly marked as modified or added. A list of all added, modified, and deleted files can also be found under the Directory Contents subheading in this README file. 
 
-TWIG also uses HpBandSter, a hyperparameter optimization package that implements (among other algorithms) BOHB (Bayesian optimization HyperBand) as in "BOHB: Robust and Efficient Hyperparameter Optimization at Scale". It is made available under a BSD 3-Clause License.
+TWIG also uses HpBandSter, a hyperparameter optimization package that implements (among other algorithms) BOHB (Bayesian optimization HyperBand) as in "BOHB: Robust and Efficient Hyperparameter Optimization at Scale". It is made available under a BSD 3-Clause License. It is in turn dependent upon the use of the ConfigSpace package in Twig code, which also cited below.
 
 IDGL Citation
 - Yu Chen, Lingfei Wu and Mo hammed J. Zaki. "Iterative Deep Graph Learning for Graph Neural Networks: Better and Robust Node Embeddings." In Proceedings of the 34th Conference on Neural Information Processing Systems (NeurIPS 2020), Dec 6-12, 2020.
@@ -17,6 +17,14 @@ BOHB citation:
   booktitle =    {Proceedings of the 35th International Conference on Machine Learning},
   pages =        {1436--1445},
   year =         {2018},
+}
+
+ConfigSpace citation:
+@article{
+    title   = {BOAH: A Tool Suite for Multi-Fidelity Bayesian Optimization & Analysis of Hyperparameters},
+    author  = {M. Lindauer and K. Eggensperger and M. Feurer and A. Biedenkapp and J. Marben and P. Müller and F. Hutter},
+    journal = {arXiv:1908.06756 {[cs.LG]}},
+    date    = {2019},
 }
 
 
