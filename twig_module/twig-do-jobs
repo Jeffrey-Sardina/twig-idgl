@@ -1,5 +1,7 @@
 #!/bin/bash
 
-echo "start"
-twig-do-your-job /workspace/twig_module/TwigJob_80_250_re.yml
-echo "done"
+echo "1"
+twig-do-your-job /workspace/twig_module/TwigJob_n250_bdg200_loglr.yml
+
+echo "2"
+twig-do-your-job /workspace/twig_module/TwigJob_n250_bdg200_loglr_repeat.yml

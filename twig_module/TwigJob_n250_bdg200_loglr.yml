@@ -4,7 +4,7 @@ idgl_working_dir: "/workspace/GNN_module/src/"
 # IO data
 allow_resume: True
 idgl_config_file: "/workspace/GNN_module/src/config/cora/idgl_anchor.yml"
-run_id: "default_run"
+run_id: "TwigJob_n250_bdg200_loglr"
 out_dir: "/workspace/output/models/" #for the GNN model
 bohb_log_dir: "/workspace/output/bohb_logs/"
 host_addr: "127.0.0.1"
