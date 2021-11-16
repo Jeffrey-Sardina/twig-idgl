@@ -1,6 +1,2 @@
 output/*.*
-output/bohb_logs/*
-output/models/*
-output/save/*
-output/raw_idgl/*
-output/train_failed_oom/*
+output/*/*

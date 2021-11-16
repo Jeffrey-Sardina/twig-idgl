@@ -51,10 +51,9 @@ def do_job(NA_file=None):
 
     # Train AI
     print('=========================Training Starting=========================')
-    torch.cuda.empty_cache()
-    accuracy = train_GNN(neural_architecture)
+    train_results = train_GNN(neural_architecture)
     print('=========================Training Done=========================')
-    print('accuracy:', accuracy)
+    print('train_results:', train_results)
 
     # Run analysis
     print('=========================Analysis Starting=========================')
@@ -75,7 +74,7 @@ def train_GNN(neural_architecture):
     if "idgl_params" in config and config["idgl_params"]:
         for param in config["idgl_params"]:
             neural_architecture[param] = config["idgl_params"][param]
-    neural_architecture["out_dir"] = os.path.join(config["out_dir"], config["run_id"], "train_restored")
+    neural_architecture["out_dir"] = os.path.join(config["out_dir"], config["run_id"], "train")
     return GNN_run(neural_architecture)
 
 def analyse():

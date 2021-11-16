@@ -68,51 +68,28 @@ class GNN_Worker(Worker):
         The parameters of this dict need to be loaded into the full idgl_conf needed by IDGL. Then, the resultant
             config can be used to call IDGL's main function
         """
-
-        # Load checkpointing data
-        checkpoint_dir = os.path.join(self.twig_config["out_dir"], self.run_id, "_".join(str(x) for x in config_id))
-        checkpoint_file = os.path.join(checkpoint_dir, "checkpoint.yml")
-
-        # Restore checkpoint if it exists; else create a checkpoint directory
-        if os.path.isdir(checkpoint_dir):
-            if os.path.exists(checkpoint_file):
-                try:
-                    with open(checkpoint_file, 'r') as checkpoint:
-                        checkpoint_data = yaml.load(checkpoint, Loader=yaml.FullLoader)
-                    print("Using checkpoint for iteration with config_id:", config_id)
-                    print(os.path.abspath(checkpoint_file))
-                    return {
-                        'loss': checkpoint_data["loss"], # this is the a mandatory field to run hyperband
-                        'info': checkpoint_data["info"] # can be used for any user-defined information - also mandatory
-                    }
-                except:
-                    raise ValueError("Could not load checkpoint.", checkpoint_file)
-            else:
-                    shutil.rmtree(checkpoint_dir)
         
         # Load the correct model configuration
         tmp_idgl_conf = {k:self.idgl_conf[k] for k in self.idgl_conf}
         for hyperparam in hyperparams_to_override:
             tmp_idgl_conf[hyperparam] = config[hyperparam]
         tmp_idgl_conf['max_epochs'] = budget
-        tmp_idgl_conf['out_dir'] = checkpoint_dir #"/tmp/" + "iteration_id_" + str(random.random())
+        tmp_idgl_conf['out_dir'] = os.path.join(self.twig_config["out_dir"],
+            self.run_id,
+            "_".join(str(x) for x in config_id),
+            str(random.random()))
 
         # Run the model configuration and collect the results
         res = GNN_run(tmp_idgl_conf)
-
-        # Release CUDA memory
-        torch.cuda.empty_cache() #Otherwise old runs might take up memory later runs could use
+        loss = -res['nloss'] #Normally on a neg scale, correct to make this a min problem
 
         # Get Run Data
         return_dict = {
-                    'loss': float(res),  # this is the a mandatory field to run hyperband
-                    'info': checkpoint_file #res  # can be used for any user-defined information - also mandatory
+                    'loss': float(loss), # this is the a mandatory field to run hyperband
+                    'info': res # can be used for any user-defined information - also mandatory
                 }
 
-        # Write the results to disk as a checkpoint
-        with open(checkpoint_file, 'w') as checkpoint:
-            yaml.dump(return_dict, checkpoint)
-
+        print(res)
         return return_dict
     
     @staticmethod
@@ -193,15 +170,31 @@ def run_sampler(args):
     # For further details about the Result object, see its documentation.
     # Here we simply print out the best config and some statistics about the performed runs.
     print("=========================")
+    # Get the best seeen ever, on any budget
+    data = res.get_incumbent_trajectory(bigger_is_better=False, non_decreasing_budget=False)
+    best_seen_id = data['config_ids'][-1]
+    best_seen_budget = data['budgets'][-1]
+    best_seen_loss = data['losses'][-1]
+    print('best_seen_id', best_seen_id)
+    print('best_seen_budget', best_seen_budget)
+    print('best_seen_loss', best_seen_loss)
+
+    # Get its config
     id2config = res.get_id2config_mapping()
-    incumbent = res.get_incumbent_id()
-    print('Best found configuration:', id2config[incumbent]['config'])
-    print('A total of %i unique configurations where sampled.' % len(id2config.keys()))
-    print('A total of %i runs where executed.' % len(res.get_all_runs()))
-    print('Total budget corresponds to %.1f full function evaluations.'%(sum([r.budget for r in res.get_all_runs()])/args["max_budget"]))
+    opt_config = id2config[best_seen_id]['config']
+    print('Best found configuration on any budget:', opt_config)
+
+    # # The incumbent is only chosen from the set run at max budget
+    # id2config = res.get_id2config_mapping()
+    # incumbent = res.get_incumbent_id()
+    # opt_config = id2config[incumbent]['config']
+    # print("incumbent_id", incumbent)
+    # print('Best found configuration:', opt_config)
+    # print('A total of %i unique configurations where sampled.' % len(id2config.keys()))
+    # print('A total of %i runs where executed.' % len(res.get_all_runs()))
+    # print('Total budget corresponds to %.1f full function evaluations.'%(sum([r.budget for r in res.get_all_runs()])/args["max_budget"]))
 
     # Get the entire config used
-    opt_config = id2config[incumbent]['config']
     with open(args["idgl_config_file"], "r") as conf:
         total_config = yaml.load(conf, Loader=yaml.FullLoader)
     for hyperparam in hyperparams_to_override:
