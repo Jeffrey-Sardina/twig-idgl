@@ -80,8 +80,13 @@ class GNN_Worker(Worker):
             str(random.random()))
 
         # Run the model configuration and collect the results
-        res = GNN_run(tmp_idgl_conf)
-        loss = -res['nloss'] #Normally on a neg scale, correct to make this a min problem
+        res, model_metric_name = GNN_run(tmp_idgl_conf)
+
+        # BOHB minimizes, to make sure lower == better
+        if self.twig_config["target_downstream_metric_not_loss"]:
+            loss = -res['nloss'] #Normally on a neg scale, correct to make this a min problem
+        else:
+            loss = -model_metric_name
 
         # Get Run Data
         return_dict = {
@@ -170,29 +175,27 @@ def run_sampler(args):
     # For further details about the Result object, see its documentation.
     # Here we simply print out the best config and some statistics about the performed runs.
     print("=========================")
-    # Get the best seeen ever, on any budget
-    data = res.get_incumbent_trajectory(bigger_is_better=False, non_decreasing_budget=False)
-    best_seen_id = data['config_ids'][-1]
-    best_seen_budget = data['budgets'][-1]
-    best_seen_loss = data['losses'][-1]
-    print('best_seen_id', best_seen_id)
-    print('best_seen_budget', best_seen_budget)
-    print('best_seen_loss', best_seen_loss)
-
-    # Get its config
     id2config = res.get_id2config_mapping()
-    opt_config = id2config[best_seen_id]['config']
-    print('Best found configuration on any budget:', opt_config)
-
-    # # The incumbent is only chosen from the set run at max budget
-    # id2config = res.get_id2config_mapping()
-    # incumbent = res.get_incumbent_id()
-    # opt_config = id2config[incumbent]['config']
-    # print("incumbent_id", incumbent)
-    # print('Best found configuration:', opt_config)
-    # print('A total of %i unique configurations where sampled.' % len(id2config.keys()))
-    # print('A total of %i runs where executed.' % len(res.get_all_runs()))
-    # print('Total budget corresponds to %.1f full function evaluations.'%(sum([r.budget for r in res.get_all_runs()])/args["max_budget"]))
+    if args["select_best_from_max_budget_only"]:
+        # The incumbent is only chosen from the set run at max budget
+        incumbent = res.get_incumbent_id()
+        opt_config = id2config[incumbent]['config']
+        print("incumbent_id", incumbent)
+        print('Best found configuration:', opt_config)
+        print('A total of %i unique configurations where sampled.' % len(id2config.keys()))
+        print('A total of %i runs where executed.' % len(res.get_all_runs()))
+        print('Total budget corresponds to %.1f full function evaluations.'%(sum([r.budget for r in res.get_all_runs()])/args["max_budget"]))
+    else:
+        # Get the best seeen ever, on any budget
+        data = res.get_incumbent_trajectory(bigger_is_better=False, non_decreasing_budget=False)
+        best_seen_id = data['config_ids'][-1]
+        best_seen_budget = data['budgets'][-1]
+        best_seen_loss = data['losses'][-1]
+        opt_config = id2config[best_seen_id]['config']
+        print('best_seen_id', best_seen_id)
+        print('best_seen_budget', best_seen_budget)
+        print('best_seen_loss', best_seen_loss)
+        print('Best found configuration on any budget:', opt_config)
 
     # Get the entire config used
     with open(args["idgl_config_file"], "r") as conf:

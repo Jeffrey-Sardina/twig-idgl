@@ -51,7 +51,7 @@ def do_job(NA_file=None):
 
     # Train AI
     print('=========================Training Starting=========================')
-    train_results = train_GNN(neural_architecture)
+    train_results, model_metric_name = train_GNN(neural_architecture)
     print('=========================Training Done=========================')
     print('train_results:', train_results)
 

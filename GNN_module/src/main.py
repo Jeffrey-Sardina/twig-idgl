@@ -28,7 +28,7 @@ def main(config):
     model = ModelHandler(config)
     model.train()
     test_metrics = model.test() # MODIFIED: capture test() call return
-    return test_metrics # [model.model.metric_name] # MODIFIED: return loss function data
+    return test_metrics, model.model.metric_name # [model.model.metric_name] # MODIFIED: return loss function data
 
 
 def multi_run_main(config):
