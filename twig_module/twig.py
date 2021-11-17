@@ -14,8 +14,8 @@ sys.path.append("/workspace/")
 from NAS_module.sample import run_sampler
 from NAS_module.analyse import correlation_analysis
 
-sys.path.append("/workspace/IDGL_module/src/") #Needed to allow imported in code in GNN_module
-from IDGL_module.src.main import main as GNN_run
+sys.path.append("/workspace/GNN_module/src/") #Needed to allow imported in code in GNN_module
+from GNN_module.src.main import main as GNN_run
 
 config = None
 

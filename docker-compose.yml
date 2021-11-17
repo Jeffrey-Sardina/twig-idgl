@@ -9,7 +9,7 @@ services:
         #Set up workspace
         working_dir: /workspace
         volumes:
-            - ./IDGL_module/:/workspace/IDGL_module
+            - ./GNN_module/:/workspace/GNN_module
             - ./CensNet_module/:/workspace/CensNet_module
             - ./NAS_module/:/workspace/NAS_module
             - ./twig_module/:/workspace/twig_module

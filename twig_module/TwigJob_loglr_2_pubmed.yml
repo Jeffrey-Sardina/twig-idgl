@@ -3,8 +3,8 @@ idgl_working_dir: "/workspace/GNN_module/src/"
 
 # IO data
 allow_resume: False
-idgl_config_file: "/workspace/GNN_module/src/config/cora/idgl_anchor.yml"
-run_id: "TwigJob_n20_bdg250_loglr_target_acc_maxselect_only"
+idgl_config_file: "/workspace/GNN_module/src/config/pubmed/idgl_anchor.yml"
+run_id: "TwigJob_n20_bdg250_loglr_target_loss_maxselect_only_pubmed"
 out_dir: "/workspace/output/models/" #for the GNN model
 bohb_log_dir: "/workspace/output/bohb_logs/"
 host_addr: "127.0.0.1"
@@ -15,7 +15,7 @@ idgl_params:
     random_seed: 7 #change between repeat runs!
 
 # BOHB Target
-target_downstream_metric_not_loss: True
+target_downstream_metric_not_loss: False
 select_best_from_max_budget_only: True
 
 # BOHB running commands

@@ -1,5 +1,6 @@
 #!/bin/bash
 
-twig-do-your-job /workspace/twig_module/TwigJob_loglr.yml
-twig-do-your-job /workspace/twig_module/TwigJob_loglr_1.yml
-twig-do-your-job /workspace/twig_module/TwigJob_loglr_2.yml
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_pubmed.yml
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_1_pubmed.yml
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_2_pubmed.yml
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_3_pubmed.yml

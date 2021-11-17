@@ -18,9 +18,9 @@ import hpbandster.core.result as hpres
 import ConfigSpace as CS #hpbandster supports float, int, and categorial hyperparameters only, not all in CS
 
 import sys
-sys.path.append("/workspace/") #Needed to be able to import from IDGL_module
-sys.path.append("/workspace/IDGL_module/src/") #Needed to allow imported in code in IDGL_module
-from IDGL_module.src.main import main as GNN_run
+sys.path.append("/workspace/") #Needed to be able to import from GNN_module
+sys.path.append("/workspace/GNN_module/src/") #Needed to allow imported in code in GNN_module
+from GNN_module.src.main import main as GNN_run
 
 import logging
 logging.basicConfig(level=logging.WARNING)
