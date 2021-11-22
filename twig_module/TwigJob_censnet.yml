@@ -1,0 +1,49 @@
+# Constants; these should not be changed unless you change the directory structure
+idgl_working_dir: "/workspace/CensNet_module/"
+
+# IO data
+allow_resume: False
+run_id: "TwigJob_censnet_test"
+out_dir: "/workspace/output/models/" #for the GNN model
+bohb_log_dir: "/workspace/output/bohb_logs/"
+host_addr: "127.0.0.1"
+
+# CensNet parameters
+censnet_params:
+    train_ratio: 0.05
+    public_splitting: False
+    early_stopping: 50
+    replicates: 10
+    task: "classification"
+    seed: 9 #change between repeat runs!
+
+# BOHB Target
+target_downstream_metric_not_loss: False
+select_best_from_max_budget_only: False
+
+# BOHB running commands
+n_iterations: 40 #this is the number of iterations used in successive halving
+min_budget: 20
+max_budget: 250
+
+# yperparameter definitions
+hyperparameters:
+    # Non-NA hyperparams
+    lr: # 0 # 0!
+        min: 0.00001
+        max: 1
+        type: "log_uniform_float"
+    weight_decay:
+        min: 0.00001
+        max: 1
+        type: "log_uniform_float"
+    hidden:
+        min: 1
+        max: 100
+        type: "uniform_integer"
+    dropout:
+        min: 0
+        max: 1
+        type: "uniform_float"
+
+

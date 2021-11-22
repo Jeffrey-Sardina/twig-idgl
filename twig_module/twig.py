@@ -122,4 +122,3 @@ if __name__ == '__main__':
     do_job(NA_file=args.neural_architecture)
     print("Job completed successfully!")
     exit(0)
-    
