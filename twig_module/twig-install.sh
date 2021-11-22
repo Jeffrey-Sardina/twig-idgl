@@ -18,7 +18,6 @@ export PATH=$PATH:~/miniconda3/bin
 conda create -n "twig_env" python=3.7 pip
 conda run --no-capture-output -n twig_env pip install -r GNN_module/requirements.txt
 conda run --no-capture-output -n twig_env pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
-conda run --no-capture-output -n twig_env pip install tabulate==0.8.9 #for CensNet
 conda init bash #new
 
 #Install hyperopt (part of the NAS_module)
