@@ -1,6 +1,11 @@
 #!/bin/bash
 
-twig-do-your-job /workspace/twig_module/TwigJob_loglr_pubmed.yml
-twig-do-your-job /workspace/twig_module/TwigJob_loglr_1_pubmed.yml
-twig-do-your-job /workspace/twig_module/TwigJob_loglr_2_pubmed.yml
-twig-do-your-job /workspace/twig_module/TwigJob_loglr_3_pubmed.yml
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_citeseer_bd.yml
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_1_citeseer_bd.yml
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_2_citeseer_bd.yml
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_3_citeseer_bd.yml
+
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_citeseer_it.yml
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_1_citeseer_it.yml
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_2_citeseer_it.yml
+twig-do-your-job /workspace/twig_module/TwigJob_loglr_3_citeseer_it.yml

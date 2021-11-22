@@ -1,0 +1,139 @@
+# Constants; these should not be changed unless you change the directory structure
+idgl_working_dir: "/workspace/GNN_module/src/"
+
+# IO data
+allow_resume: False
+idgl_config_file: "/workspace/GNN_module/src/config/citeseer/idgl_anchor.yml"
+run_id: "TwigJob_n20_bdg500_loglr_target_acc_maxselect_only_citeseer"
+out_dir: "/workspace/output/models/" #for the GNN model
+bohb_log_dir: "/workspace/output/bohb_logs/"
+host_addr: "127.0.0.1"
+
+# IDGL parameters
+idgl_params:
+    seed: 3 #change between repeat runs!
+    random_seed: 3 #change between repeat runs!
+
+# BOHB Target
+target_downstream_metric_not_loss: True
+select_best_from_max_budget_only: True
+
+# BOHB running commands
+n_iterations: 20 #this is the number of iterations used in successive halving
+min_budget: 20
+max_budget: 500
+
+# yperparameter definitions
+hyperparameters:
+    #Training
+        # https://stackoverflow.com/questions/63108131/pytorch-schedule-learning-rate
+        # https://deepai.org/machine-learning-glossary-and-terms/gradient-clipping
+        # https://towardsdatascience.com/what-is-gradient-accumulation-in-deep-learning-ec034122cfa
+    learning_rate:
+        min: 0.00001
+        max: 1
+        type: "log_uniform_float"
+    weight_decay:
+        min: 0.00001
+        max: 1
+        type: "log_uniform_float"
+    lr_reduce_factor:
+        min: 0
+        max: 1
+        type: "uniform_float"
+    lr_patience: #2
+        min: 1
+        max: 10
+        type: "uniform_integer"
+    grad_accumulated_steps: # see the link above # 1
+        min: 1
+        max: 10
+        type: "uniform_integer"
+
+    # grad_clipping: null #This is the max norm (if not null) of the gradient; above that the gradient norms are clipped to avoid exploding gradients
+    # ... it still seems to clip even with this nul though, so I'm not going to  play around with this
+    # eary_stop_metric: 'nloss' # negative loss
+    # pretrain_epoch: 0 # 0
+    # eps_adj: 8.5e-5 # IGL: 8.5e-5! # I think this is a KNN thing
+
+    # Regularization
+    dropout:
+        min: 0
+        max: 1
+        type: "uniform_float"
+    feat_adj_dropout:
+        min: 0
+        max: 1
+        type: "uniform_float"
+    gl_dropout:
+        min: 0
+        max: 1
+        type: "uniform_float"
+
+    # Anchor params
+    num_anchors:
+        min: 100
+        max: 10000
+        type: "uniform_integer"
+
+    # Other
+    # scalable_run: True #I think this means use the ANCHOR method
+    hidden_size: #I think this is the size of the hidden layers (NOT the number of them); in the inner tensors it is one of the dimensions
+        min: 10
+        max: 90
+        type: "uniform_integer"
+
+    # Graph neural networks params
+    graph_skip_conn: #0.8 # 0.9, IL: 0.8!
+        min: 0
+        max: 1
+        type: "uniform_float"
+    update_adj_ratio: #0.1 # IL: 0.1!
+        min: 0
+        max: 1
+        type: "uniform_float"
+    smoothness_ratio: #0.2 # 0.2, IL: 0.2!
+        min: 0
+        max: 1
+        type: "uniform_float"
+    degree_ratio: # 0 # 0!
+        min: 0.00001
+        max: 1
+        type: "log_uniform_float"
+    sparsity_ratio: #0.1 # 0, IL: 0.1!
+        min: 0
+        max: 1
+        type: "uniform_float"
+    graph_learn_hidden_size: # 70 # kernel: 100, attention: 70
+        min: 10
+        max: 90
+        type: "uniform_integer"
+    graph_learn_num_pers: # A param to 2D tensor size # 4 # weighted_cosine: GL: 4, IGL: 4!
+        min: 1
+        max: 20
+        type: "uniform_integer"
+    graph_hops: # adds this number 2 AnchorGCNLayer-s in Anchor mode # 2
+        min: 1
+        max: 10
+        type: "uniform_integer"
+
+    # graph_include_self: False #Not sure what this does; it only seems to be used if graph_skip_conn is 0 or None
+    # bignn: False
+    # graph_module: 'gcn'
+    # graph_type: 'dynamic'
+    # graph_learn: True
+    # graph_metric_type: 'weighted_cosine' # kernel, attention, gat_attention
+    # graph_learn_epsilon: 0 # weighted_cosine: 0!
+    # graph_learn_topk: null # 200
+    # graph_learn_ratio: 0 # IL: 0!
+    # graph_learn_hidden_size2: 70 # kernel: 100, attention: 70
+    # graph_learn_epsilon2: 0 # weighted_cosine: 0
+    # graph_learn_topk2: null # 200
+
+    # # GAT only (GAT is a nother typr of GNN, like how GCN is a GNN model)
+    # gat_nhead: 8
+    # gat_alpha: 0.2
+
+    # Other
+    # use_bert: False #Can't find where this is used in the code
+

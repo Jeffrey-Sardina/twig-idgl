@@ -3,23 +3,23 @@ idgl_working_dir: "/workspace/GNN_module/src/"
 
 # IO data
 allow_resume: False
-idgl_config_file: "/workspace/GNN_module/src/config/pubmed/idgl_anchor.yml"
-run_id: "TwigJob_n20_bdg250_loglr_target_loss_pubmed"
+idgl_config_file: "/workspace/GNN_module/src/config/citeseer/idgl_anchor.yml"
+run_id: "TwigJob_n40_bdg250_loglr_target_loss_citeseer"
 out_dir: "/workspace/output/models/" #for the GNN model
 bohb_log_dir: "/workspace/output/bohb_logs/"
 host_addr: "127.0.0.1"
 
 # IDGL parameters
 idgl_params:
-    seed: 4 #change between repeat runs!
-    random_seed: 4 #change between repeat runs!
+    seed: 9 #change between repeat runs!
+    random_seed: 9 #change between repeat runs!
 
 # BOHB Target
 target_downstream_metric_not_loss: False
 select_best_from_max_budget_only: False
 
 # BOHB running commands
-n_iterations: 20 #this is the number of iterations used in successive halving
+n_iterations: 40 #this is the number of iterations used in successive halving
 min_budget: 20
 max_budget: 250
 

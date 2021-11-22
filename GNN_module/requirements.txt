@@ -1,4 +1,4 @@
-nltk==3.6.4 #MODIFIED: mgrate from v3.4.5 to 3.6.4 for security
+nltk==3.6.5 #MODIFIED: mgrate from v3.4.5 to 3.6.5 for security
 numpy==1.15.4
 scipy==1.2.3
 PyYAML==5.4 #MODIFIED: mgrate from v5.1 to 5.4 for security
