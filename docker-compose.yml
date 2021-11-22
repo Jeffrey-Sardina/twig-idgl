@@ -10,7 +10,6 @@ services:
         working_dir: /workspace
         volumes:
             - ./GNN_module/:/workspace/GNN_module
-            - ./CensNet_module/:/workspace/CensNet_module
             - ./NAS_module/:/workspace/NAS_module
             - ./twig_module/:/workspace/twig_module
             - ./output/:/workspace/output
