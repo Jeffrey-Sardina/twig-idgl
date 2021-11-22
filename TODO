@@ -4,4 +4,5 @@ I need to close down all other programs that can use the GPU when I run Twig -- 
 Random seed and checkpointing -- this could hurt reproducibility to checkpoint-restored results
 
 So, in my results, Spearman correlation is 1 but Pearson is 0. This seems to tell me that something is quite wrong...but I am not sure why. 
-efd
+
+I can integrate CensNet here; for ex, for a graph classifier, I could add its class definition as a model and then use it in GraphClf to integrate the two, I think
