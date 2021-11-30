@@ -34,6 +34,6 @@ Some initial notes:
 
 There seems to be similarity between corr's for the same target (acc or loss)
 
-Note that targeting acc is not what you "should" do -- it was just included as a test case for context
+Note that targeting acc is not what you "should" do -- it was just included as a test case for context.
 
 Note that data from TwigJob_n20_bdg250_loglr_target_loss_pubmed and TwigJob_n20_bdg250_loglr_target_loss_pubmed_try2 was never included, since its training always failed with out of memory errors
